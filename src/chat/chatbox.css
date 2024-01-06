@@ -1,0 +1,114 @@
+
+.chatbox{
+  margin-top: 100px;
+  padding: 50px;
+}
+  .chat-container {
+    width:100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .chat-messages {
+    width: 65%;
+    overflow-y: auto;
+    
+    
+    /* border: 1px solid #ccc; */
+  }
+  
+  /* .message {
+    margin-bottom: 10px;
+    padding: 8px;
+    border-radius: 5px;
+  } */
+  
+  .message-box{
+    border-radius: 10px;
+    border-bottom-left-radius: 0px;
+    border-top-right-radius:0px;
+    margin-top: 10px;
+    padding: 20px;
+    width: fit-content;
+    transition: opacity 0.5s ease-in-out;
+  }
+  
+  .user {
+    background-color: #487ccf;
+    color: #fff; 
+    /* backgroundColor:'#487ccf', */
+    /* #ced2d9 grey*/
+    /* #487ccf blue*/
+  }
+
+  .bot{
+    background-color: #aaadb3;
+    color: #fff; 
+  }
+
+ 
+  .chat-input {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 50px;
+    width: 65%;
+    overflow-y: auto;
+    border: 1px solid #b6b9bf;
+    border-radius: 7px;
+    padding: 10px;
+    /* position: relative; */
+
+  }
+  
+  /* textarea {
+    flex: 1;
+    padding: 20px;
+    border:0 !important;
+
+    resize: none;
+    overflow-y: auto;
+    max-height: 600px;
+  
+    scrollbar-width:'thick'; 
+    scrollbar-color: #4caf50 #e0e0e0; 
+  } */
+  
+  textarea::-webkit-scrollbar {
+    width: 12px; /* Width of the scrollbar */
+    cursor: pointer;
+    /* position: absolute; */
+    z-index: 0;
+  }
+  
+  textarea::-webkit-scrollbar-track {
+    background: #e6e8eb; /* Color of the track */
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
+  textarea::-webkit-scrollbar-thumb {
+    background-color: #74777a; /* Color of the thumb */
+    border-radius: 6px; /* Radius of the thumb */
+    border: 3px solid #e0e0e0; /* Border around the thumb */
+    cursor: pointer;
+  }
+  
+  .send-button {
+    padding: 8px;
+    margin-left: 5px;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 5%;
+    height:20%;
+    align-self: flex-end;
+    z-index:1;
+
+  }
+  
