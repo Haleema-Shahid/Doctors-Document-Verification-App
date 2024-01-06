@@ -8,6 +8,7 @@ import ChatBox from "./chat/chatbox";
 import Login from "./login/login";
 import ChatBoxVerifier from "./chat/chatbox-verifier";
 import ApplicationTable from "./table/ApplicationTable";
+import Dashboard from "./dashboard/Dashboard";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -19,6 +20,7 @@ root.render(
         <Route path="/" element={<Login />} />
         <Route path="/chatbox-verifier" element={<ChatBoxVerifier />} />
         <Route path="/application-table" element={<ApplicationTable />} />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </Router>
   </React.StrictMode>
