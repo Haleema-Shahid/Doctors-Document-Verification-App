@@ -132,7 +132,7 @@ function Login(props) {
     }
     else if(isVerifier(account.username, account.password)){
         localStorage.setItem("role", "verifier");
-        navigate('/chatbox-verifier');
+        navigate('/application-table');
     }
     else{
         //TODO: show a toast or something for invalid credentials
