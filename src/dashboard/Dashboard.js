@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Line, Doughnut } from "react-chartjs-2";
 import "bootstrap/dist/css/bootstrap.min.css";
 //import "./Dashboard.css";
@@ -15,6 +15,7 @@ import {
 } from "../variables/chart";
 
 import Header from "../header/header";
+import { useNavigate } from "react-router-dom";
 
 // top 4 line graphs
 function CubeCard({ color, chartData, chartOptions, number, text }) {
@@ -280,188 +281,199 @@ const graphOptions = {
   },
 };
 function Dashboard(props) {
+  const navigate = useNavigate();
   const [bigChartData, setbigChartData] = React.useState("data1");
   const setBgChartData = (name) => {
     setbigChartData(name);
   };
-
-  return (
-    <>
-      <Header />
-      <div
-        className="content"
-        style={{ marginTop: "30px", marginLeft: "20px", marginRight: "20px" }}
-      >
-        <Row></Row>
-        <Row>
-          <Col lg="3">
-            <CubeCard
-              color="#1d8cf899"
-              chartData={chartExample2.data}
-              chartOptions={chartExample2.options}
-              number={620}
-              text="Applications Recieved"
-            />
-          </Col>
-          <Col lg="3">
-            <CubeCard
-              color="#4848b0b3"
-              chartData={chartExample3.data}
-              chartOptions={chartExample3.options}
-              number={520}
-              text="Verified Applications"
-            />
-          </Col>
-          <Col lg="3">
-            <CubeCard
-              color="#00d6b4"
-              chartData={chartExample4.data}
-              chartOptions={chartExample4.options}
-              number={25}
-              text="Irregular Applications"
-            />
-          </Col>
-          <Col lg="3">
-            <CubeCard
-              color="#1f8ef1"
-              chartData={chartExample1.data1}
-              chartOptions={chartExample1.options}
-              number={9000}
-              text="Rejected Applications"
-            />
-          </Col>
-        </Row>
-        <Row style={{ marginTop: "20px" }}>
-          <Col lg="7" md="11">
-            <VerificationFeesCard />
-          </Col>
-          <Col lg="5" md="12">
-            <Card>
-              <CardTitle
-                tag="h4"
-                style={{
-                  marginLeft: "30px",
-                  marginTop: "20px",
-                  color: "#524f53",
-                  fontWeight: "bold",
-                }}
-              >
-                Verification Overview
-              </CardTitle>
-
-              <CardBody>
-                <div style={{ position: "relative", textAlign: "center" }}>
-                  <Doughnut
-                    data={graphData}
-                    options={graphOptions}
-                    height={200}
-                  />
-                  <div
-                    style={{
-                      position: "absolute",
-                      top: "50%",
-                      left: "51%",
-                      transform: "translate(-50%, -50%)",
-                      fontSize: "24px",
-                      fontWeight: "bold",
-                      color: "#000000",
-                      fontSize: "40px",
-                      color: "#524f53",
-                      opacity: "0.9",
-                    }}
-                  >
-                    83%
-                  </div>
-                </div>
-                <div
+  useEffect(() => {
+    const role = localStorage.getItem("role");
+    if (role === null || role === "client") {
+      navigate("/chatbox");
+    }
+  }, [navigate]);
+  const role = localStorage.getItem("role");
+  if (role !== null && role !== "client") {
+    return (
+      <>
+        <Header />
+        <div
+          className="content"
+          style={{ marginTop: "30px", marginLeft: "20px", marginRight: "20px" }}
+        >
+          <Row></Row>
+          <Row>
+            <Col lg="3">
+              <CubeCard
+                color="#1d8cf899"
+                chartData={chartExample2.data}
+                chartOptions={chartExample2.options}
+                number={620}
+                text="Applications Recieved"
+              />
+            </Col>
+            <Col lg="3">
+              <CubeCard
+                color="#4848b0b3"
+                chartData={chartExample3.data}
+                chartOptions={chartExample3.options}
+                number={520}
+                text="Verified Applications"
+              />
+            </Col>
+            <Col lg="3">
+              <CubeCard
+                color="#00d6b4"
+                chartData={chartExample4.data}
+                chartOptions={chartExample4.options}
+                number={25}
+                text="Irregular Applications"
+              />
+            </Col>
+            <Col lg="3">
+              <CubeCard
+                color="#1f8ef1"
+                chartData={chartExample1.data1}
+                chartOptions={chartExample1.options}
+                number={9000}
+                text="Rejected Applications"
+              />
+            </Col>
+          </Row>
+          <Row style={{ marginTop: "20px" }}>
+            <Col lg="7" md="11">
+              <VerificationFeesCard />
+            </Col>
+            <Col lg="5" md="12">
+              <Card>
+                <CardTitle
+                  tag="h4"
                   style={{
-                    display: "flex",
-                    justifyContent: "space-around",
+                    marginLeft: "30px",
                     marginTop: "20px",
-                    border: "1px solid #ccc",
+                    color: "#524f53",
+                    fontWeight: "bold",
                   }}
                 >
-                  <div
-                    style={{
-                      textAlign: "center",
-                      alignContent: "center",
-                      justifyContent: "center",
-                      justifyItems: "center",
-                      border: "1px solid #ccc",
-                      borderBottom: "none",
-                      borderLeft: "none",
-                      padding: "10px",
-                      paddingLeft: "40px",
-                      paddingRight: "60px",
-                      borderTop: "none",
-                      opacity: "0.7",
-                    }}
-                  >
-                    Completed
-                    <div
-                      style={{
-                        fontSize: "18px",
-                        fontWeight: "bold",
-                        color: "#524f53",
-                        fontSize: "25px",
-                      }}
-                    >
-                      51,032
-                    </div>
-                  </div>
-                  <div
-                    style={{
-                      textAlign: "center",
+                  Verification Overview
+                </CardTitle>
 
-                      padding: "10px",
-                      opacity: "0.7",
-                    }}
-                  >
-                    In Progress
+                <CardBody>
+                  <div style={{ position: "relative", textAlign: "center" }}>
+                    <Doughnut
+                      data={graphData}
+                      options={graphOptions}
+                      height={200}
+                    />
                     <div
                       style={{
-                        fontSize: "18px",
+                        position: "absolute",
+                        top: "50%",
+                        left: "51%",
+                        transform: "translate(-50%, -50%)",
+                        fontSize: "24px",
                         fontWeight: "bold",
+                        color: "#000000",
+                        fontSize: "40px",
                         color: "#524f53",
-                        fontSize: "25px",
+                        opacity: "0.9",
                       }}
                     >
-                      3,561
+                      83%
                     </div>
                   </div>
                   <div
                     style={{
-                      textAlign: "center",
+                      display: "flex",
+                      justifyContent: "space-around",
+                      marginTop: "20px",
                       border: "1px solid #ccc",
-                      borderBottom: "none",
-                      borderRight: "none",
-                      borderTop: "none",
-                      padding: "10px",
-                      paddingLeft: "60px",
-                      paddingRight: "30px",
-                      opacity: "0.7",
                     }}
                   >
-                    Irregular
                     <div
                       style={{
-                        fontSize: "18px",
-                        fontWeight: "bold",
-                        color: "#524f53",
-                        fontSize: "25px",
+                        textAlign: "center",
+                        alignContent: "center",
+                        justifyContent: "center",
+                        justifyItems: "center",
+                        border: "1px solid #ccc",
+                        borderBottom: "none",
+                        borderLeft: "none",
+                        padding: "10px",
+                        paddingLeft: "40px",
+                        paddingRight: "60px",
+                        borderTop: "none",
+                        opacity: "0.7",
                       }}
                     >
-                      13,651
+                      Completed
+                      <div
+                        style={{
+                          fontSize: "18px",
+                          fontWeight: "bold",
+                          color: "#524f53",
+                          fontSize: "25px",
+                        }}
+                      >
+                        51,032
+                      </div>
+                    </div>
+                    <div
+                      style={{
+                        textAlign: "center",
+
+                        padding: "10px",
+                        opacity: "0.7",
+                      }}
+                    >
+                      In Progress
+                      <div
+                        style={{
+                          fontSize: "18px",
+                          fontWeight: "bold",
+                          color: "#524f53",
+                          fontSize: "25px",
+                        }}
+                      >
+                        3,561
+                      </div>
+                    </div>
+                    <div
+                      style={{
+                        textAlign: "center",
+                        border: "1px solid #ccc",
+                        borderBottom: "none",
+                        borderRight: "none",
+                        borderTop: "none",
+                        padding: "10px",
+                        paddingLeft: "60px",
+                        paddingRight: "30px",
+                        opacity: "0.7",
+                      }}
+                    >
+                      Irregular
+                      <div
+                        style={{
+                          fontSize: "18px",
+                          fontWeight: "bold",
+                          color: "#524f53",
+                          fontSize: "25px",
+                        }}
+                      >
+                        13,651
+                      </div>
                     </div>
                   </div>
-                </div>
-              </CardBody>
-            </Card>
-          </Col>
-        </Row>
-      </div>
-    </>
-  );
+                </CardBody>
+              </Card>
+            </Col>
+          </Row>
+        </div>
+      </>
+    );
+  } else {
+    navigate("/chatbox");
+  }
 }
 
 export default Dashboard;

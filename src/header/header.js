@@ -19,6 +19,7 @@ const pages = ["Products", "Pricing", "Blog"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 function Header() {
+  const userRole = localStorage.getItem("role");
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const navigate = useNavigate();
@@ -59,18 +60,29 @@ function Header() {
     navigate("/");
   };
   return (
-    <AppBar position="static" style={{
-      //backgroundColor: "#cbdaf2"
-    }}>
-      <Container maxWidth="100%" style={{
-        paddingLeft:"15px",
-        paddingRight:"15px"
-      }}>
+    <AppBar
+      position="static"
+      style={
+        {
+          //backgroundColor: "#cbdaf2"
+        }
+      }
+    >
+      <Container
+        maxWidth="100%"
+        style={{
+          paddingLeft: "15px",
+          paddingRight: "15px",
+        }}
+      >
         <Toolbar disableGutters>
-          <img src={SureSourceLogo} style={{
-            width: "150px",
-            height:"auto"
-          }} />
+          <img
+            src={SureSourceLogo}
+            style={{
+              width: "150px",
+              height: "auto",
+            }}
+          />
           {/* <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} /> */}
           <Typography
             variant="h6"
@@ -150,20 +162,29 @@ function Header() {
             LOGO
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            <Button
-              //key={page}
-              onClick={handleDashboardClick}
-              sx={{ my: 2, color: "white", display: "block" }}
-            >
-              Dashboard
-            </Button>
-            <Button
-              //key={page}
-              onClick={handleApplicationsClick}
-              sx={{ my: 2, color: "white", display: "block" }}
-            >
-              Applications
-            </Button>
+            {userRole === "verifier" ? (
+              <Button
+                //key={page}
+                onClick={handleDashboardClick}
+                sx={{ my: 2, color: "white", display: "block" }}
+              >
+                Dashboard
+              </Button>
+            ) : (
+              " "
+            )}
+
+            {userRole === "verifier" ? (
+              <Button
+                //key={page}
+                onClick={handleApplicationsClick}
+                sx={{ my: 2, color: "white", display: "block" }}
+              >
+                Applications
+              </Button>
+            ) : (
+              " "
+            )}
             <Button
               //key={page}
               onClick={handleChatClick}
