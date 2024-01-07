@@ -9,11 +9,25 @@ import Login from "./login/login";
 import ChatBoxVerifier from "./chat/chatbox-verifier";
 import ApplicationTable from "./table/ApplicationTable";
 import Dashboard from "./dashboard/Dashboard";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <Router>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
       <Routes>
         <Route path="/app" element={<App />} />
         <Route path="/chatbox" element={<ChatBox />} />

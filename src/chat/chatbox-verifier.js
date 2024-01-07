@@ -5,6 +5,7 @@ import { Box, Typography, TextField, Button } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import Header from "../header/header.js";
 import DocumentInputMessage from "./documentInputMessage.js";
+import ChatBg from "./chat-bg.jpg";
 function ChatBoxVerifier() {
   const botMessages = [
     {
@@ -42,10 +43,16 @@ function ChatBoxVerifier() {
       text: "Thank you for submitting your documents! I will email you once your documents have been verified by our certified verifier",
       sequenceNumber: 6,
     },
+    {
+      //if user says no to "more documents"
+      sender: "bot",
+      text: "Revisit when you're ready. GoodBye!",
+      sequenceNumber: 7,
+    },
   ];
 
   const [clientFiles, setClientFiles] = useState();
-
+  const [showInput, setShowInput] = useState(true);
   const [seqNumber, setSeqNumber] = useState(2);
   const [currentFile, setCurrentFile] = useState("");
   const [showDocumentInput, setShowDocumentInput] = useState(false);
@@ -145,24 +152,40 @@ function ChatBoxVerifier() {
           //setShowDocumentInput(true);
         }
       } else if (seqNumber === 3) {
-        // Display client files as separate messages
-        const clientFilesMessages = clientFiles.map((file) => ({
-          text: "file",
-          sender: "bot",
-          isDocumentInput: "output",
-          outputFile: file,
-        }));
+        if (inputMessage === "no") {
+          setShowInput(false);
+          botMessage = getMessageBySequenceNumber(7);
+          setMessages((prevMessages) => [
+            ...prevMessages,
+            { text: inputMessage, sender: "user", isDocumentInput: null },
+            {
+              text: botMessage.text,
+              sender: botMessage.sender,
+              isDocumentInput: null,
+            },
+            //{ text: botMessage.text, sender: "bot", isDocumentInput: null },
+          ]);
+        } else {
+          // Display client files as separate messages
+          const clientFilesMessages = clientFiles.map((file) => ({
+            text: "file",
+            sender: "bot",
+            isDocumentInput: "output",
+            outputFile: file,
+          }));
 
-        setMessages((prevMessages) => [
-          ...prevMessages,
-          { text: inputMessage, sender: "user", isDocumentInput: null },
-          ...clientFilesMessages,
-          { text: inputMessage, sender: "bot", isDocumentInput: null },
-        ]);
+          botMessage = getMessageBySequenceNumber(4);
+          setMessages((prevMessages) => [
+            ...prevMessages,
+            { text: inputMessage, sender: "user", isDocumentInput: null },
+            ...clientFilesMessages,
+            //{ text: botMessage.text, sender: "bot", isDocumentInput: null },
+          ]);
 
-        // Update the clientFiles in local storage without the processed files
-        localStorage.setItem("clientFiles", JSON.stringify([]));
-        handleSetSeqNumber(4);
+          // Update the clientFiles in local storage without the processed files
+          localStorage.setItem("clientFiles", JSON.stringify([]));
+          handleSetSeqNumber(4);
+        }
       } else {
         botMessage = getMessageBySequenceNumber(seqNumber);
         setMessages((prevMessages) => [
@@ -185,16 +208,29 @@ function ChatBoxVerifier() {
   };
 
   return (
-    <div className="App">
+    <div
+      className="App"
+      style={{
+        backgroundImage: `url(${ChatBg})`,
+        backgroundSize: "cover",
+        backgroundRepeat: "repeat",
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
       <Header />
 
       <div className="chatbox">
         <div className="chat-container">
           <Button
-          style={{
-            backgroundColor: "#173a73",
-            color: "white",
-          }}>Mark as verified</Button>
+            style={{
+              backgroundColor: "#173a73",
+              color: "white",
+            }}
+          >
+            Mark as verified
+          </Button>
           <div className="chat-messages">
             {messages.map((message, index) => (
               <div key={index} className={`message`}>
@@ -214,30 +250,32 @@ function ChatBoxVerifier() {
               <DocumentInputMessage isUploaded={setIsUploaded} />
             )} */}
           </div>
-          <div className="chat-input">
-            <TextField
-              variant="standard"
-              style={{
-                flex: "1",
-                //resize: "none",
-                overflowY: "auto",
-                maxHeight: "600px",
-                scrollbarWidth: "thin",
-                scrollbarColor: "#4caf50 #e0e0e0",
-                width: "100%",
-                zIndex: "0",
-              }}
-              multiline
-              maxRows={5}
-              placeholder="Type your message..."
-              value={inputMessage}
-              onChange={(e) => setInputMessage(e.target.value)}
-              //onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
-            ></TextField>
-            <button className={"send-button"} onClick={handleSendMessage}>
-              <SendIcon />
-            </button>
-          </div>
+          {showInput && (
+            <div className="chat-input">
+              <TextField
+                variant="standard"
+                style={{
+                  flex: "1",
+                  //resize: "none",
+                  overflowY: "auto",
+                  maxHeight: "600px",
+                  scrollbarWidth: "thin",
+                  scrollbarColor: "#4caf50 #e0e0e0",
+                  width: "100%",
+                  zIndex: "0",
+                }}
+                multiline
+                maxRows={5}
+                placeholder="Type your message..."
+                value={inputMessage}
+                onChange={(e) => setInputMessage(e.target.value)}
+                //onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
+              ></TextField>
+              <button className={"send-button"} onClick={handleSendMessage}>
+                <SendIcon />
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>

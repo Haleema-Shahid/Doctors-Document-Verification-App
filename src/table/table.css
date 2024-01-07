@@ -1,14 +1,15 @@
 * {
   font-family: "Poppins", sans-serif;
 }
-.container {
+.container-div {
   margin: 25px;
 }
-h3 {
+.heading-3 {
   color: rgba(0, 0, 0, 0.507);
 }
 
-.table {
+.table-style {
+  margin-top: 20px;
   width: 100%;
   max-width: 100%;
   margin-bottom: 1rem;
@@ -57,13 +58,13 @@ thead {
   color: rgba(0, 0, 0, 0.507);
 }
 
-.header {
+.header-style {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.buttons {
+.buttons-style {
   display: flex;
 }
 

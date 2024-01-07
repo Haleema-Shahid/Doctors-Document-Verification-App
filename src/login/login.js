@@ -1,5 +1,5 @@
-import React, {useState} from "react";
-import {useNavigate} from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -16,6 +16,9 @@ import { makeStyles } from "@material-ui/core/styles";
 // import users from "./../../data/users";
 import image from "./image.jpg";
 // import authService from "./../service/authService";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { successToast, errorToast } from "../Toast/Toast";
 
 function Copyright() {
   return (
@@ -44,13 +47,13 @@ const useStyles = makeStyles((theme) => ({
 
     display: "flex",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   size: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
 
   paper: {
@@ -59,90 +62,104 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
     //opacity: "2"
-    borderRadius: "10px"
+    borderRadius: "10px",
   },
   avatar: {
     margin: theme.spacing(0),
-    backgroundColor: theme.palette.secondary.main
+    backgroundColor: theme.palette.secondary.main,
   },
   form: {
     width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing(1)
+    marginTop: theme.spacing(1),
   },
   submit: {
-    margin: theme.spacing(3, 0, 2)
-  }
+    margin: theme.spacing(3, 0, 2),
+  },
 }));
 
 function Login(props) {
+  //   if(authService.isLoggedIn()){
 
-//   if(authService.isLoggedIn()){
+  //     props.history.push("./home");
 
-//     props.history.push("./home");
-
-//   }
+  //   }
 
   const classes = useStyles();
   const navigate = useNavigate();
 
   console.log(typeof classes.root);
 
-  const [client, setClient] = useState({username:"client",password:"client123"});
-  const [verifier, setVerifier] = useState({username:"verifier",password:"verifier123"});
+  const [client, setClient] = useState({
+    username: "client",
+    password: "client123",
+  });
+  const [verifier, setVerifier] = useState({
+    username: "verifier",
+    password: "verifier123",
+  });
 
-  const [account, setAccount] = useState({username:"",password:""});
+  const [account, setAccount] = useState({ username: "", password: "" });
 
-  const handleAccount = (property,event)=>{
-
-    const accountCopy = {...account};
+  const handleAccount = (property, event) => {
+    const accountCopy = { ...account };
     accountCopy[property] = event.target.value;
 
     setAccount(accountCopy);
+  };
 
-  }
-
-  const isClient=(username, password)=>{
-    if(client.username===username && client.password ===password){
-        return true;
+  const isClient = (username, password) => {
+    if (client.username === username && client.password === password) {
+      return true;
     }
     return false;
   };
-  const isVerifier =(username, password)=>{
-    if(verifier.username===username && verifier.password ===password){
-        return true;
+  const isVerifier = (username, password) => {
+    if (verifier.username === username && verifier.password === password) {
+      return true;
     }
     return false;
-  }
+  };
 
-
-  const handleLogin = ()=>{
+  const handleLogin = (event) => {
+    event.preventDefault();
     //TODO: create an empty list of clientFiles and store it in local storage.
     const clientFiles = [
-        "https://firebasestorage.googleapis.com/v0/b/document-verification-ap-88a6a.appspot.com/o/bot%2F1704547880926_test_document?alt=media&token=14f1c920-5037-4e98-bf13-bbb24a33a34f",
-        "https://firebasestorage.googleapis.com/v0/b/document-verification-ap-88a6a.appspot.com/o/bot%2F1704547934839_test_document?alt=media&token=5620fe28-73da-48c4-a190-5b23830b9b14",
-        "https://firebasestorage.googleapis.com/v0/b/document-verification-ap-88a6a.appspot.com/o/bot%2F1704547959482_test_document?alt=media&token=fa02014d-b579-4028-b434-a56c4add2cdc",    
+      "https://firebasestorage.googleapis.com/v0/b/document-verification-ap-88a6a.appspot.com/o/bot%2F1704547880926_test_document?alt=media&token=14f1c920-5037-4e98-bf13-bbb24a33a34f",
+      "https://firebasestorage.googleapis.com/v0/b/document-verification-ap-88a6a.appspot.com/o/bot%2F1704547934839_test_document?alt=media&token=5620fe28-73da-48c4-a190-5b23830b9b14",
+      "https://firebasestorage.googleapis.com/v0/b/document-verification-ap-88a6a.appspot.com/o/bot%2F1704547959482_test_document?alt=media&token=fa02014d-b579-4028-b434-a56c4add2cdc",
     ];
-    
+
     // Store the empty list and role in local storage
-    localStorage.setItem('clientFiles', JSON.stringify(clientFiles));
-    if(isClient(account.username, account.password)){
-        localStorage.setItem("role", "client");
-        navigate('/chatbox');
-
+    localStorage.setItem("clientFiles", JSON.stringify(clientFiles));
+    if (isClient(account.username, account.password)) {
+      localStorage.setItem("role", "client");
+      successToast("Login Successfull");
+      navigate("/dashboard");
+    } else if (isVerifier(account.username, account.password)) {
+      localStorage.setItem("role", "verifier");
+      successToast("Login Successfull");
+      navigate("/dashboard");
+    } else {
+      console.log("Nope");
+      //TODO: show a toast or something for invalid credentials
+      errorToast("Invalid Credentials!!");
     }
-    else if(isVerifier(account.username, account.password)){
-        localStorage.setItem("role", "verifier");
-        navigate('/application-table');
-    }
-    else{
-        //TODO: show a toast or something for invalid credentials
-    }
-
-
   };
 
   return (
     <Grid container component="main" className={classes.root}>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
       <CssBaseline />
       {/* <Grid item xs={false} sm={4} md={7} className={classes.image} /> */}
       <Grid
@@ -164,7 +181,7 @@ function Login(props) {
           </Typography>
           <form className={classes.form} noValidate>
             <TextField
-            onChange={(event)=>handleAccount("username",event)}
+              onChange={(event) => handleAccount("username", event)}
               variant="outlined"
               margin="normal"
               required
@@ -175,7 +192,7 @@ function Login(props) {
               autoFocus
             />
             <TextField
-            onChange={(event)=>handleAccount("password",event)}
+              onChange={(event) => handleAccount("password", event)}
               variant="outlined"
               margin="normal"
               required
@@ -196,7 +213,7 @@ function Login(props) {
               variant="contained"
               color="primary"
               className={classes.submit}
-              onClick = {handleLogin}
+              onClick={(event) => handleLogin(event)}
             >
               Log In
             </Button>

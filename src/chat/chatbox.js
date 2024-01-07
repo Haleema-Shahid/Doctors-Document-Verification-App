@@ -5,6 +5,7 @@ import { Box, Typography, TextField } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import Header from "../header/header.js";
 import DocumentInputMessage from "./documentInputMessage.js";
+import ChatBg from "./chat-bg.jpg";
 function ChatBox() {
   const botMessages = [
     {
@@ -51,6 +52,7 @@ function ChatBox() {
     return message || null; // Return null if the message is not found
   };
 
+  const [showInput, setShowInput] = useState(true);
   const [seqNumber, setSeqNumber] = useState(2);
   const botFirstMessage = getMessageBySequenceNumber(1);
   const [showDocumentInput, setShowDocumentInput] = useState(false);
@@ -113,6 +115,7 @@ function ChatBox() {
           console.log("said no*****************");
           handleSetSeqNumber(seqNumber + 1); //4
           botMessage = getMessageBySequenceNumber(4);
+          setShowInput(false);
           //seqNumber = 4;
         } else if (inputMessage == "yes") {
           //setSeqNumber(seqNumber+1);
@@ -145,7 +148,15 @@ function ChatBox() {
   };
 
   return (
-    <div className="App">
+    <div className="App"
+    style={{
+      backgroundImage: `url(${ChatBg})`,
+      backgroundSize: "cover",
+      backgroundRepeat: "repeat",
+      height: "100%",
+      display: "flex",
+      flexDirection: "column",
+    }}>
       <Header />
       <div className="chatbox">
         <div className="chat-container">
@@ -166,7 +177,8 @@ function ChatBox() {
               <DocumentInputMessage isUploaded={setIsUploaded} />
             )} */}
           </div>
-          <div className="chat-input">
+
+          {showInput && (<div className="chat-input">
             <TextField
               variant="standard"
               style={{
@@ -189,7 +201,7 @@ function ChatBox() {
             <button className={"send-button"} onClick={handleSendMessage}>
               <SendIcon />
             </button>
-          </div>
+          </div>)}
         </div>
       </div>
     </div>

@@ -1,4 +1,9 @@
-
+#root{
+  height:100%
+}
+html, body{
+  height: 100%;
+}
 .chatbox{
   margin-top: 100px;
   padding: 50px;

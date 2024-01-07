@@ -13,6 +13,7 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { useNavigate } from "react-router-dom";
+import SureSourceLogo from "./sureSource.png";
 
 const pages = ["Products", "Pricing", "Blog"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
@@ -36,30 +37,48 @@ function Header() {
     setAnchorElUser(null);
   };
 
-  const handleApplicationsClick =()=>{
-    navigate("/application-table")
-  }
+  const handleApplicationsClick = () => {
+    navigate("/application-table");
+  };
 
-  const handleDashboardClick =()=>{
-    console.log("dashboard clicked!");
-    navigate("/dashboard")
-  }
+  const handleChatClick = () => {
+    const role = localStorage.getItem("role");
+    if (role == "client") {
+      navigate("/chatbox");
+    } else {
+      navigate("/chatbox-verifier");
+    }
+  };
+
+  const handleDashboardClick = () => {
+    navigate("/dashboard");
+  };
+
   const handleLogout = () => {
     localStorage.clear();
     navigate("/");
   };
   return (
-    <AppBar position="static">
-      <Container maxWidth="xl">
+    <AppBar position="static" style={{
+      //backgroundColor: "#cbdaf2"
+    }}>
+      <Container maxWidth="100%" style={{
+        paddingLeft:"15px",
+        paddingRight:"15px"
+      }}>
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+          <img src={SureSourceLogo} style={{
+            width: "150px",
+            height:"auto"
+          }} />
+          {/* <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} /> */}
           <Typography
             variant="h6"
             noWrap
             component="a"
             href="#app-bar-with-responsive-menu"
             sx={{
-              mr: 2,
+              mr: 50,
               display: { xs: "none", md: "flex" },
               fontFamily: "monospace",
               fontWeight: 700,
@@ -68,11 +87,11 @@ function Header() {
               textDecoration: "none",
             }}
           >
-            LOGO
+            SureSource
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-            <IconButton
+            {/* <IconButton
               size="large"
               aria-label="account of current user"
               aria-controls="menu-appbar"
@@ -81,7 +100,7 @@ function Header() {
               color="inherit"
             >
               <MenuIcon />
-            </IconButton>
+            </IconButton> */}
             <Menu
               id="menu-appbar"
               anchorEl={anchorElNav}
@@ -111,7 +130,7 @@ function Header() {
               </MenuItem>
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
+          {/* <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} /> */}
           <Typography
             variant="h5"
             noWrap
@@ -147,7 +166,7 @@ function Header() {
             </Button>
             <Button
               //key={page}
-              onClick={handleCloseNavMenu}
+              onClick={handleChatClick}
               sx={{ my: 2, color: "white", display: "block" }}
             >
               Let's Talk
