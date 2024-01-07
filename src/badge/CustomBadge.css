@@ -11,26 +11,26 @@
 }
 
 .custom-badge-success {
-  color: #28a745 !important;
-  background-color: #d4edda !important;
+  color: #28a745; /* Dark green, same as background color */
+  background-color: #d4edda; /* Light green background color */
 }
 
 .custom-badge-danger {
-  color: #dc3545 !important;
-  background-color: #f8d7da !important;
+  color: #dc3545; /* Dark red, same as background color */
+  background-color: #f8d7da; /* Light red background color */
 }
 
 .custom-badge-warning {
-  color: #ebaa32 !important;
-  background-color: #f1dcce !important;
+  color: #ebaa32; /* Orange, same as background color */
+  background-color: #f1dcce; /* Light orange background color */
 }
 
 .custom-badge-purple {
-  color: #800080 !important;
-  background-color: #d8bfd8 !important;
+  color: #800080; /* Dark purple, same as background color */
+  background-color: #d8bfd8; /* Light purple background color */
 }
 
 .custom-badge-secondary {
-  color: #6c757d !important;
-  background-color: #c8d1da !important;
+  color: #6c757d; /* Dark grey, same as background color */
+  background-color: #c8d1da; /* Light grey background color */
 }

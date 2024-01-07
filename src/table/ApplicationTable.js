@@ -6,21 +6,20 @@ import Header from "../header/header";
 import { useNavigate } from "react-router-dom";
 
 export default function ApplicationTable() {
-
   const navigate = useNavigate();
 
   const handleReferenceIdClick = (referenceId) => {
     // Add your logic here for handling the click event
     console.log(`Reference ID clicked: ${referenceId}`);
     navigate("/chatbox-verifier");
-  }
+  };
   return (
     <>
       <Header />
-      <div className="container">
-        <div className="header">
-          <h3>Medical practitioner PSV Applications</h3>
-          <div className="buttons">
+      <div className="container-div">
+        <div className="header-style">
+          <h3 className="heading-3">Medical practitioner PSV Applications</h3>
+          <div className="buttons-style">
             <button className="custom-button">
               All <span className="arrow">&#x25BC;</span>
             </button>
@@ -30,7 +29,7 @@ export default function ApplicationTable() {
           </div>
         </div>
 
-        <table className="table">
+        <table className="table-style">
           <thead>
             <tr>
               <th>REFERENCE ID</th>
@@ -49,10 +48,7 @@ export default function ApplicationTable() {
               <tr key={item.id}>
                 <td className="table-id">
                   {item.status === "In Progress" ? (
-                    <a
-                      href="#"
-                      onClick={() => handleReferenceIdClick(item.id)}
-                    >
+                    <a href="#" onClick={() => handleReferenceIdClick(item.id)}>
                       {item.id}
                     </a>
                   ) : (

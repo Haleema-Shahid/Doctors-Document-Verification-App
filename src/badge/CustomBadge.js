@@ -1,37 +1,27 @@
-// CustomBadge.js
-
 import React from "react";
-import Badge from "react-bootstrap/Badge";
 import "./CustomBadge.css";
 
 const CustomBadge = ({ status }) => {
-  let variant;
+  let badgeClass;
 
   switch (status.toLowerCase()) {
     case "verified":
-      variant = "success";
+      badgeClass = "custom-badge-success";
       break;
     case "rejected":
-      variant = "danger";
+      badgeClass = "custom-badge-danger";
       break;
     case "in progress":
-      variant = "warning";
+      badgeClass = "custom-badge-warning";
       break;
     case "irregular":
-      variant = "purple";
+      badgeClass = "custom-badge-purple";
       break;
     default:
-      variant = "secondary";
+      badgeClass = "custom-badge-secondary";
   }
-  
 
-  return (
-    <Badge className={`custom-badge custom-badge-${variant}`}>{status}</Badge>
-  );
+  return <div className={`custom-badge ${badgeClass}`}>{status}</div>;
 };
-
-// CustomBadge.propTypes = {
-//   status: PropTypes.string.isRequired,
-// };
 
 export default CustomBadge;
