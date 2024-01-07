@@ -36,13 +36,22 @@ function Header() {
     setAnchorElUser(null);
   };
 
-  const handleApplicationsClick =()=>{
-    navigate("/application-table")
-  }
+  const handleApplicationsClick = () => {
+    navigate("/application-table");
+  };
 
-  const handleDashboardClick =()=>{
-    console.log("dashboard clicked!");
-  }
+  const handleChatClick = () => {
+    const role = localStorage.getItem("role");
+    if (role == "client") {
+      navigate("/chatbox");
+    } else {
+      navigate("/chatbox-verifier");
+    }
+  };
+
+  const handleDashboardClick = () => {
+    navigate("/dashboard");
+  };
   const handleLogout = () => {
     localStorage.clear();
     navigate("/");
@@ -146,7 +155,7 @@ function Header() {
             </Button>
             <Button
               //key={page}
-              onClick={handleCloseNavMenu}
+              onClick={handleChatClick}
               sx={{ my: 2, color: "white", display: "block" }}
             >
               Let's Talk

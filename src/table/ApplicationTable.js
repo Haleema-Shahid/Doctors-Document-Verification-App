@@ -1,6 +1,5 @@
 import React from "react";
 import data from "./data";
-import Badge from "react-bootstrap/Badge";
 import "./table.css";
 import CustomBadge from "../badge/CustomBadge";
 import Header from "../header/header";

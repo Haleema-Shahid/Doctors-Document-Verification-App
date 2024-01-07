@@ -2,7 +2,6 @@
 
 import React from "react";
 import Badge from "react-bootstrap/Badge";
-import PropTypes from "prop-types";
 import "./CustomBadge.css";
 
 const CustomBadge = ({ status }) => {
@@ -24,6 +23,7 @@ const CustomBadge = ({ status }) => {
     default:
       variant = "secondary";
   }
+  
 
   return (
     <Badge className={`custom-badge custom-badge-${variant}`}>{status}</Badge>
