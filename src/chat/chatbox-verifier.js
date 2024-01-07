@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./chatbox.css";
 import Message from "./message";
-import { Box, Typography, TextField } from "@mui/material";
+import { Box, Typography, TextField, Button } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import Header from "../header/header.js";
 import DocumentInputMessage from "./documentInputMessage.js";
@@ -26,7 +26,7 @@ function ChatBoxVerifier() {
     {
       //if user says no to "documents ready?"
       sender: "bot",
-      text: "Please get your documents so we can proceed",
+      text: "Have you verified the user?",
       sequenceNumber: 4,
     },
     {
@@ -152,13 +152,14 @@ function ChatBoxVerifier() {
           isDocumentInput: "output",
           outputFile: file,
         }));
-  
+
         setMessages((prevMessages) => [
           ...prevMessages,
           { text: inputMessage, sender: "user", isDocumentInput: null },
           ...clientFilesMessages,
+          { text: inputMessage, sender: "bot", isDocumentInput: null },
         ]);
-  
+
         // Update the clientFiles in local storage without the processed files
         localStorage.setItem("clientFiles", JSON.stringify([]));
         handleSetSeqNumber(4);
@@ -173,12 +174,12 @@ function ChatBoxVerifier() {
             isDocumentInput: seqNumber === 3 ? "output" : null,
           },
         ]);
-  
+
         if (seqNumber < 6) {
           handleSetSeqNumber(seqNumber + 1);
         }
       }
-  
+
       setInputMessage("");
     }
   };
@@ -186,8 +187,14 @@ function ChatBoxVerifier() {
   return (
     <div className="App">
       <Header />
+
       <div className="chatbox">
         <div className="chat-container">
+          <Button
+          style={{
+            backgroundColor: "#173a73",
+            color: "white",
+          }}>Mark as verified</Button>
           <div className="chat-messages">
             {messages.map((message, index) => (
               <div key={index} className={`message`}>

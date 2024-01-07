@@ -42,6 +42,7 @@ function Header() {
 
   const handleDashboardClick =()=>{
     console.log("dashboard clicked!");
+    navigate("/dashboard")
   }
   const handleLogout = () => {
     localStorage.clear();
