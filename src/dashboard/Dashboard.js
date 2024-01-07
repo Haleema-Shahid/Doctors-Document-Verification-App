@@ -1,6 +1,5 @@
 import React from "react";
-import classNames from "classnames";
-import { Line, Bar } from "react-chartjs-2";
+import { Line, Doughnut } from "react-chartjs-2";
 import "bootstrap/dist/css/bootstrap.min.css";
 //import "./Dashboard.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -32,6 +31,7 @@ import {
   chartExample4,
 } from "../variables/chart";
 
+// top 4 line graphs
 function CubeCard({ color, chartData, chartOptions, number, text }) {
   return (
     <Card
@@ -54,8 +54,8 @@ function CubeCard({ color, chartData, chartOptions, number, text }) {
               elements: {
                 line: {
                   tension: 0.4,
-                  // This controls the curvature of the line
                 },
+
                 point: {
                   radius: 0,
                   hitRadius: 10,
@@ -83,6 +83,128 @@ function CubeCard({ color, chartData, chartOptions, number, text }) {
   );
 }
 
+// bottom left line graph
+function VerificationFeesCard() {
+  const chartData = {
+    labels: ["10", "20", "30", "40", "50", "60", "70", "80", "90", "100"],
+    datasets: [
+      {
+        label: "This Month",
+        borderColor: "rgba(75,192,192,1)",
+        borderWidth: 2,
+        fill: false,
+        lineTension: 0.4, // Adjust the line tension for a curvier line
+        data: [
+          40000, 25000, 47000, 40000, 50000, 48000, 45000, 52000, 48000, 50000,
+        ],
+      },
+      {
+        label: "Last Month",
+        borderColor: "rgba(75,192,192,0.4)",
+        borderWidth: 2,
+        borderDash: [5, 5],
+        fill: false,
+        lineTension: 0.4,
+        data: [
+          30000, 20000, 40000, 36000, 45000, 42000, 39000, 44000, 41000, 43000,
+        ],
+      },
+    ],
+  };
+
+  const chartOptions = {
+    elements: {
+      point: {
+        radius: 0,
+        hitRadius: 10,
+        pointStyle: false,
+      },
+    },
+    scales: {
+      x: {
+        type: "linear",
+        position: "bottom",
+        ticks: {
+          stepSize: 10,
+          callback: (value) => `${value}`,
+        },
+        grid: {
+          display: false, // Hide the vertical grid lines
+        },
+      },
+      y: {
+        type: "linear",
+        position: "left",
+        ticks: {
+          stepSize: 10000,
+          max: 50000, // Adjust the maximum value for the Y-axis
+          callback: (value) => `$${value}`,
+        },
+        grid: {
+          color: "rgba(0, 0, 0, 0.1)", // Set the color for horizontal grid lines
+        },
+      },
+    },
+    plugins: {
+      legend: {
+        display: false,
+      },
+    },
+  };
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle tag="h4">Verification Fees collected</CardTitle>
+        <Col className="text-right">
+          <div className="text-small">
+            <span style={{ marginRight: "10px" }}>This Month</span>
+            <span>Last Month</span>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-start",
+                alignItems: "center",
+                marginTop: "5px", // Adjust the margin as needed
+              }}
+            >
+              <span style={{ marginLeft: "10px", marginRight: "10px" }}>
+                $86,589
+              </span>
+              <span style={{ marginLeft: "12px" }}>$73,683</span>
+            </div>
+          </div>
+        </Col>
+      </CardHeader>
+      <CardBody>
+        <Line data={chartData} options={chartOptions} />
+      </CardBody>
+    </Card>
+  );
+}
+// doughnut graph
+const graphData = {
+  labels: ["Completed"],
+  datasets: [
+    {
+      data: [25, 15, 25, 40],
+      backgroundColor: ["#4caf50", "#ffffff", "#ffffff", "#4caf50"],
+    },
+  ],
+};
+
+const graphOptions = {
+  cutout: "93%", // Adjust the size of the circle
+  aspectRatio: 1,
+  plugins: {
+    legend: {
+      display: false,
+    },
+    tooltip: {
+      enabled: false,
+    },
+  },
+};
 function Dashboard(props) {
   const [bigChartData, setbigChartData] = React.useState("data1");
   const setBgChartData = (name) => {
@@ -134,8 +256,8 @@ function Dashboard(props) {
             />
           </Col>
         </Row>
-        <Row>
-          <Col lg="6" md="12">
+        <Row style={{ marginTop: "20px" }}>
+          {/* <Col lg="6" md="12">
             <Card className="card-tasks">
               <CardHeader>
                 <h6 className="title d-inline">Tasks(5)</h6>
@@ -401,8 +523,11 @@ function Dashboard(props) {
                 </div>
               </CardBody>
             </Card>
-          </Col>
+          </Col> */}
           <Col lg="6" md="12">
+            <VerificationFeesCard />
+          </Col>
+          {/* <Col lg="6" md="12">
             <Card>
               <CardHeader>
                 <CardTitle tag="h4">Simple Table</CardTitle>
@@ -464,7 +589,82 @@ function Dashboard(props) {
                 </Table>
               </CardBody>
             </Card>
+          </Col> */}
+          <Col lg="6" md="12">
+            <Card>
+              <CardHeader>
+                <CardTitle tag="h4">Verification Overview</CardTitle>
+              </CardHeader>
+              <CardBody>
+                <div style={{ position: "relative", textAlign: "center" }}>
+                  <Doughnut data={graphData} options={graphOptions} />
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: "50%",
+                      left: "50%",
+                      transform: "translate(-50%, -50%)",
+                      fontSize: "24px",
+                      fontWeight: "bold",
+                      color: "#4caf50", // Green color
+                    }}
+                  >
+                    83%
+                  </div>
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    marginTop: "20px",
+                  }}
+                >
+                  <div
+                    style={{
+                      textAlign: "center",
+                      border: "1px solid #ccc",
+                      borderTop: "none",
+                      borderRight: "none",
+                      padding: "10px",
+                    }}
+                  >
+                    Completed
+                    <div style={{ fontSize: "18px", fontWeight: "bold" }}>
+                      51,032
+                    </div>
+                  </div>
+                  <div
+                    style={{
+                      textAlign: "center",
+                      border: "1px solid #ccc",
+                      borderTop: "none",
+                      borderRight: "none",
+                      padding: "10px",
+                    }}
+                  >
+                    In Progress
+                    <div style={{ fontSize: "18px", fontWeight: "bold" }}>
+                      3,561
+                    </div>
+                  </div>
+                  <div
+                    style={{
+                      textAlign: "center",
+                      border: "1px solid #ccc",
+                      borderTop: "none",
+                      padding: "10px",
+                    }}
+                  >
+                    Irregular
+                    <div style={{ fontSize: "18px", fontWeight: "bold" }}>
+                      13,651
+                    </div>
+                  </div>
+                </div>
+              </CardBody>
+            </Card>
           </Col>
+          );
         </Row>
       </div>
     </>
