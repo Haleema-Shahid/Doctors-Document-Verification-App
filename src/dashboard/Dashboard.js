@@ -2,27 +2,10 @@ import React from "react";
 import { Line, Doughnut } from "react-chartjs-2";
 import "bootstrap/dist/css/bootstrap.min.css";
 //import "./Dashboard.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Icon from "@mdi/react";
+import { mdiCubeOutline } from "@mdi/js";
 
-import {
-  Button,
-  ButtonGroup,
-  Card,
-  CardHeader,
-  CardBody,
-  CardTitle,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  UncontrolledDropdown,
-  Label,
-  FormGroup,
-  Input,
-  Table,
-  Row,
-  Col,
-  UncontrolledTooltip,
-} from "reactstrap";
+import { Card, CardBody, CardTitle, Row, Col } from "reactstrap";
 
 import {
   chartExample1,
@@ -30,6 +13,8 @@ import {
   chartExample3,
   chartExample4,
 } from "../variables/chart";
+
+import Header from "../header/header";
 
 // top 4 line graphs
 function CubeCard({ color, chartData, chartOptions, number, text }) {
@@ -39,14 +24,44 @@ function CubeCard({ color, chartData, chartOptions, number, text }) {
       style={{ boxShadow: "0 4px 8px rgba(0,0,0,0.1)" }}
     >
       <CardBody>
-        <FontAwesomeIcon icon="fa-light fa-cube" />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: color, // Use the color prop for the circle background
+            borderRadius: "50%", // Make it a circle
+            width: "40px", // Set the desired width
+            height: "40px", // Set the desired height
+            marginTop: "15px",
+            marginLeft: "10px",
+          }}
+        >
+          <Icon path={mdiCubeOutline} size={1} color="#FFFFFF" />{" "}
+          {/* Set the icon color to white */}
+        </div>
 
-        <div className="text-small">{number}</div>
-        {/* Number below the cube */}
-        <div className="text-small">{text}</div>
-        {/* Text below the number */}
+        <div
+          className="text-large"
+          style={{
+            marginTop: "10px",
+            marginLeft: "10px",
+            fontWeight: "bold",
+            color: "#524f53",
+            fontSize: "22px",
+          }}
+        >
+          {number}
+        </div>
+
+        <div
+          className="text-medium"
+          style={{ marginTop: "10px", marginLeft: "10px", color: "#524f53" }}
+        >
+          {text}
+        </div>
+
         <div className="chart-area" style={{ marginBottom: "-15px" }}>
-          {/* Your line chart */}
           <Line
             data={chartData}
             options={{
@@ -95,7 +110,7 @@ function VerificationFeesCard() {
         fill: false,
         lineTension: 0.4, // Adjust the line tension for a curvier line
         data: [
-          40000, 25000, 47000, 40000, 50000, 48000, 45000, 52000, 48000, 50000,
+          40000, 36000, 47000, 40000, 50000, 48000, 45000, 52000, 48000, 50000,
         ],
       },
       {
@@ -106,7 +121,7 @@ function VerificationFeesCard() {
         fill: false,
         lineTension: 0.4,
         data: [
-          30000, 20000, 40000, 36000, 45000, 42000, 39000, 44000, 41000, 43000,
+          30000, 27000, 40000, 36000, 45000, 42000, 39000, 44000, 41000, 43000,
         ],
       },
     ],
@@ -150,33 +165,84 @@ function VerificationFeesCard() {
         display: false,
       },
     },
+    tooltips: {
+      backgroundColor: "#4848b0b3",
+    },
   };
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle tag="h4">Verification Fees collected</CardTitle>
-        <Col className="text-right">
-          <div className="text-small">
-            <span style={{ marginRight: "10px" }}>This Month</span>
-            <span>Last Month</span>
-            <div
+      <CardTitle
+        tag="h4"
+        style={{
+          marginLeft: "30px",
+          marginTop: "20px",
+          color: "#524f53",
+          fontWeight: "bold",
+        }}
+      >
+        Verification Fees collected
+      </CardTitle>
+      <Col className="text-right">
+        <div
+          className="text-small"
+          style={{ marginLeft: "30px", marginTop: "20px" }}
+        >
+          <span
+            style={{
+              marginLeft: "2px",
+              marginRight: "18px",
+              color: "#524f53",
+              opacity: "0.8",
+              fontWeight: "500",
+            }}
+          >
+            This Month
+          </span>
+          <span style={{ color: "#524f53", opacity: "0.8", fontWeight: "500" }}>
+            Last Month
+          </span>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "flex-start",
+              alignItems: "center",
+              marginTop: "5px", // Adjust the margin as needed
+            }}
+          >
+            <span
               style={{
-                display: "flex",
-                justifyContent: "flex-start",
-                alignItems: "center",
-                marginTop: "5px", // Adjust the margin as needed
+                marginLeft: "10px",
+                marginRight: "10px",
+                fontSize: "20px",
+                fontWeight: "bolder",
+                color: "#524f53",
               }}
             >
-              <span style={{ marginLeft: "10px", marginRight: "10px" }}>
-                $86,589
+              $
+              <span
+                style={{
+                  color: "#4848b0b3",
+                }}
+              >
+                86,589
               </span>
-              <span style={{ marginLeft: "12px" }}>$73,683</span>
-            </div>
+            </span>
+            <span
+              style={{
+                marginLeft: "12px",
+                fontSize: "20px",
+                fontWeight: "bolder",
+                color: "#524f53",
+              }}
+            >
+              $73,683
+            </span>
           </div>
-        </Col>
-      </CardHeader>
-      <CardBody>
+        </div>
+      </Col>
+
+      <CardBody style={{ marginLeft: "20px" }}>
         <Line data={chartData} options={chartOptions} />
       </CardBody>
     </Card>
@@ -194,14 +260,22 @@ const graphData = {
 };
 
 const graphOptions = {
-  cutout: "93%", // Adjust the size of the circle
-  aspectRatio: 1,
+  maintainAspectRatio: false,
+  aspectRatio: 0.8,
+  borderRadius: "0",
+  radius: "85%",
+  cutout: "85%", // Adjust the size of the circle
   plugins: {
     legend: {
       display: false,
     },
     tooltip: {
       enabled: false,
+    },
+  },
+  elements: {
+    arc: {
+      borderWidth: 0, // Set the border width to 0
     },
   },
 };
@@ -213,6 +287,7 @@ function Dashboard(props) {
 
   return (
     <>
+      <Header />
       <div
         className="content"
         style={{ marginTop: "30px", marginLeft: "20px", marginRight: "20px" }}
@@ -221,7 +296,7 @@ function Dashboard(props) {
         <Row>
           <Col lg="3">
             <CubeCard
-              color="#FF5733"
+              color="#1d8cf899"
               chartData={chartExample2.data}
               chartOptions={chartExample2.options}
               number={620}
@@ -230,7 +305,7 @@ function Dashboard(props) {
           </Col>
           <Col lg="3">
             <CubeCard
-              color="#FF5733"
+              color="#4848b0b3"
               chartData={chartExample3.data}
               chartOptions={chartExample3.options}
               number={520}
@@ -239,7 +314,7 @@ function Dashboard(props) {
           </Col>
           <Col lg="3">
             <CubeCard
-              color="#FF5733"
+              color="#00d6b4"
               chartData={chartExample4.data}
               chartOptions={chartExample4.options}
               number={25}
@@ -248,7 +323,7 @@ function Dashboard(props) {
           </Col>
           <Col lg="3">
             <CubeCard
-              color="#FF5733"
+              color="#1f8ef1"
               chartData={chartExample1.data1}
               chartOptions={chartExample1.options}
               number={9000}
@@ -257,356 +332,42 @@ function Dashboard(props) {
           </Col>
         </Row>
         <Row style={{ marginTop: "20px" }}>
-          {/* <Col lg="6" md="12">
-            <Card className="card-tasks">
-              <CardHeader>
-                <h6 className="title d-inline">Tasks(5)</h6>
-                <p className="card-category d-inline"> today</p>
-                <UncontrolledDropdown>
-                  <DropdownToggle
-                    caret
-                    className="btn-icon"
-                    color="link"
-                    data-toggle="dropdown"
-                    type="button"
-                  >
-                    <i className="tim-icons icon-settings-gear-63" />
-                  </DropdownToggle>
-                  <DropdownMenu aria-labelledby="dropdownMenuLink" right>
-                    <DropdownItem
-                      href="#pablo"
-                      onClick={(e) => e.preventDefault()}
-                    >
-                      Action
-                    </DropdownItem>
-                    <DropdownItem
-                      href="#pablo"
-                      onClick={(e) => e.preventDefault()}
-                    >
-                      Another action
-                    </DropdownItem>
-                    <DropdownItem
-                      href="#pablo"
-                      onClick={(e) => e.preventDefault()}
-                    >
-                      Something else
-                    </DropdownItem>
-                  </DropdownMenu>
-                </UncontrolledDropdown>
-              </CardHeader>
-              <CardBody>
-                <div className="table-full-width table-responsive">
-                  <Table>
-                    <tbody>
-                      <tr>
-                        <td>
-                          <FormGroup check>
-                            <Label check>
-                              <Input defaultValue="" type="checkbox" />
-                              <span className="form-check-sign">
-                                <span className="check" />
-                              </span>
-                            </Label>
-                          </FormGroup>
-                        </td>
-                        <td>
-                          <p className="title">Update the Documentation</p>
-                          <p className="text-muted">
-                            Dwuamish Head, Seattle, WA 8:47 AM
-                          </p>
-                        </td>
-                        <td className="td-actions text-right">
-                          <Button
-                            color="link"
-                            id="tooltip636901683"
-                            title=""
-                            type="button"
-                          >
-                            <i className="tim-icons icon-pencil" />
-                          </Button>
-                          <UncontrolledTooltip
-                            delay={0}
-                            target="tooltip636901683"
-                            placement="right"
-                          >
-                            Edit Task
-                          </UncontrolledTooltip>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <FormGroup check>
-                            <Label check>
-                              <Input
-                                defaultChecked
-                                defaultValue=""
-                                type="checkbox"
-                              />
-                              <span className="form-check-sign">
-                                <span className="check" />
-                              </span>
-                            </Label>
-                          </FormGroup>
-                        </td>
-                        <td>
-                          <p className="title">GDPR Compliance</p>
-                          <p className="text-muted">
-                            The GDPR is a regulation that requires businesses to
-                            protect the personal data and privacy of Europe
-                            citizens for transactions that occur within EU
-                            member states.
-                          </p>
-                        </td>
-                        <td className="td-actions text-right">
-                          <Button
-                            color="link"
-                            id="tooltip457194718"
-                            title=""
-                            type="button"
-                          >
-                            <i className="tim-icons icon-pencil" />
-                          </Button>
-                          <UncontrolledTooltip
-                            delay={0}
-                            target="tooltip457194718"
-                            placement="right"
-                          >
-                            Edit Task
-                          </UncontrolledTooltip>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <FormGroup check>
-                            <Label check>
-                              <Input defaultValue="" type="checkbox" />
-                              <span className="form-check-sign">
-                                <span className="check" />
-                              </span>
-                            </Label>
-                          </FormGroup>
-                        </td>
-                        <td>
-                          <p className="title">Solve the issues</p>
-                          <p className="text-muted">
-                            Fifty percent of all respondents said they would be
-                            more likely to shop at a company
-                          </p>
-                        </td>
-                        <td className="td-actions text-right">
-                          <Button
-                            color="link"
-                            id="tooltip362404923"
-                            title=""
-                            type="button"
-                          >
-                            <i className="tim-icons icon-pencil" />
-                          </Button>
-                          <UncontrolledTooltip
-                            delay={0}
-                            target="tooltip362404923"
-                            placement="right"
-                          >
-                            Edit Task
-                          </UncontrolledTooltip>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <FormGroup check>
-                            <Label check>
-                              <Input defaultValue="" type="checkbox" />
-                              <span className="form-check-sign">
-                                <span className="check" />
-                              </span>
-                            </Label>
-                          </FormGroup>
-                        </td>
-                        <td>
-                          <p className="title">Release v2.0.0</p>
-                          <p className="text-muted">
-                            Ra Ave SW, Seattle, WA 98116, SUA 11:19 AM
-                          </p>
-                        </td>
-                        <td className="td-actions text-right">
-                          <Button
-                            color="link"
-                            id="tooltip818217463"
-                            title=""
-                            type="button"
-                          >
-                            <i className="tim-icons icon-pencil" />
-                          </Button>
-                          <UncontrolledTooltip
-                            delay={0}
-                            target="tooltip818217463"
-                            placement="right"
-                          >
-                            Edit Task
-                          </UncontrolledTooltip>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <FormGroup check>
-                            <Label check>
-                              <Input defaultValue="" type="checkbox" />
-                              <span className="form-check-sign">
-                                <span className="check" />
-                              </span>
-                            </Label>
-                          </FormGroup>
-                        </td>
-                        <td>
-                          <p className="title">Export the processed files</p>
-                          <p className="text-muted">
-                            The report also shows that consumers will not easily
-                            forgive a company once a breach exposing their
-                            personal data occurs.
-                          </p>
-                        </td>
-                        <td className="td-actions text-right">
-                          <Button
-                            color="link"
-                            id="tooltip831835125"
-                            title=""
-                            type="button"
-                          >
-                            <i className="tim-icons icon-pencil" />
-                          </Button>
-                          <UncontrolledTooltip
-                            delay={0}
-                            target="tooltip831835125"
-                            placement="right"
-                          >
-                            Edit Task
-                          </UncontrolledTooltip>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <FormGroup check>
-                            <Label check>
-                              <Input defaultValue="" type="checkbox" />
-                              <span className="form-check-sign">
-                                <span className="check" />
-                              </span>
-                            </Label>
-                          </FormGroup>
-                        </td>
-                        <td>
-                          <p className="title">Arival at export process</p>
-                          <p className="text-muted">
-                            Capitol Hill, Seattle, WA 12:34 AM
-                          </p>
-                        </td>
-                        <td className="td-actions text-right">
-                          <Button
-                            color="link"
-                            id="tooltip217595172"
-                            title=""
-                            type="button"
-                          >
-                            <i className="tim-icons icon-pencil" />
-                          </Button>
-                          <UncontrolledTooltip
-                            delay={0}
-                            target="tooltip217595172"
-                            placement="right"
-                          >
-                            Edit Task
-                          </UncontrolledTooltip>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </Table>
-                </div>
-              </CardBody>
-            </Card>
-          </Col> */}
-          <Col lg="6" md="12">
+          <Col lg="7" md="11">
             <VerificationFeesCard />
           </Col>
-          {/* <Col lg="6" md="12">
+          <Col lg="5" md="12">
             <Card>
-              <CardHeader>
-                <CardTitle tag="h4">Simple Table</CardTitle>
-              </CardHeader>
-              <CardBody>
-                <Table className="tablesorter" responsive>
-                  <thead className="text-primary">
-                    <tr>
-                      <th>Name</th>
-                      <th>Country</th>
-                      <th>City</th>
-                      <th className="text-center">Salary</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Dakota Rice</td>
-                      <td>Niger</td>
-                      <td>Oud-Turnhout</td>
-                      <td className="text-center">$36,738</td>
-                    </tr>
-                    <tr>
-                      <td>Minerva Hooper</td>
-                      <td>Curaçao</td>
-                      <td>Sinaai-Waas</td>
-                      <td className="text-center">$23,789</td>
-                    </tr>
-                    <tr>
-                      <td>Sage Rodriguez</td>
-                      <td>Netherlands</td>
-                      <td>Baileux</td>
-                      <td className="text-center">$56,142</td>
-                    </tr>
-                    <tr>
-                      <td>Philip Chaney</td>
-                      <td>Korea, South</td>
-                      <td>Overland Park</td>
-                      <td className="text-center">$38,735</td>
-                    </tr>
-                    <tr>
-                      <td>Doris Greene</td>
-                      <td>Malawi</td>
-                      <td>Feldkirchen in Kärnten</td>
-                      <td className="text-center">$63,542</td>
-                    </tr>
-                    <tr>
-                      <td>Mason Porter</td>
-                      <td>Chile</td>
-                      <td>Gloucester</td>
-                      <td className="text-center">$78,615</td>
-                    </tr>
-                    <tr>
-                      <td>Jon Porter</td>
-                      <td>Portugal</td>
-                      <td>Gloucester</td>
-                      <td className="text-center">$98,615</td>
-                    </tr>
-                  </tbody>
-                </Table>
-              </CardBody>
-            </Card>
-          </Col> */}
-          <Col lg="6" md="12">
-            <Card>
-              <CardHeader>
-                <CardTitle tag="h4">Verification Overview</CardTitle>
-              </CardHeader>
+              <CardTitle
+                tag="h4"
+                style={{
+                  marginLeft: "30px",
+                  marginTop: "20px",
+                  color: "#524f53",
+                  fontWeight: "bold",
+                }}
+              >
+                Verification Overview
+              </CardTitle>
+
               <CardBody>
                 <div style={{ position: "relative", textAlign: "center" }}>
-                  <Doughnut data={graphData} options={graphOptions} />
+                  <Doughnut
+                    data={graphData}
+                    options={graphOptions}
+                    height={200}
+                  />
                   <div
                     style={{
                       position: "absolute",
                       top: "50%",
-                      left: "50%",
+                      left: "51%",
                       transform: "translate(-50%, -50%)",
                       fontSize: "24px",
                       fontWeight: "bold",
-                      color: "#4caf50", // Green color
+                      color: "#000000",
+                      fontSize: "40px",
+                      color: "#524f53",
+                      opacity: "0.9",
                     }}
                   >
                     83%
@@ -615,35 +376,56 @@ function Dashboard(props) {
                 <div
                   style={{
                     display: "flex",
-                    justifyContent: "space-between",
+                    justifyContent: "space-around",
                     marginTop: "20px",
+                    border: "1px solid #ccc",
                   }}
                 >
                   <div
                     style={{
                       textAlign: "center",
+                      alignContent: "center",
+                      justifyContent: "center",
+                      justifyItems: "center",
                       border: "1px solid #ccc",
-                      borderTop: "none",
-                      borderRight: "none",
+                      borderBottom: "none",
+                      borderLeft: "none",
                       padding: "10px",
+                      paddingLeft: "40px",
+                      paddingRight: "60px",
+                      borderTop: "none",
+                      opacity: "0.7",
                     }}
                   >
                     Completed
-                    <div style={{ fontSize: "18px", fontWeight: "bold" }}>
+                    <div
+                      style={{
+                        fontSize: "18px",
+                        fontWeight: "bold",
+                        color: "#524f53",
+                        fontSize: "25px",
+                      }}
+                    >
                       51,032
                     </div>
                   </div>
                   <div
                     style={{
                       textAlign: "center",
-                      border: "1px solid #ccc",
-                      borderTop: "none",
-                      borderRight: "none",
+
                       padding: "10px",
+                      opacity: "0.7",
                     }}
                   >
                     In Progress
-                    <div style={{ fontSize: "18px", fontWeight: "bold" }}>
+                    <div
+                      style={{
+                        fontSize: "18px",
+                        fontWeight: "bold",
+                        color: "#524f53",
+                        fontSize: "25px",
+                      }}
+                    >
                       3,561
                     </div>
                   </div>
@@ -651,12 +433,24 @@ function Dashboard(props) {
                     style={{
                       textAlign: "center",
                       border: "1px solid #ccc",
+                      borderBottom: "none",
+                      borderRight: "none",
                       borderTop: "none",
                       padding: "10px",
+                      paddingLeft: "60px",
+                      paddingRight: "30px",
+                      opacity: "0.7",
                     }}
                   >
                     Irregular
-                    <div style={{ fontSize: "18px", fontWeight: "bold" }}>
+                    <div
+                      style={{
+                        fontSize: "18px",
+                        fontWeight: "bold",
+                        color: "#524f53",
+                        fontSize: "25px",
+                      }}
+                    >
                       13,651
                     </div>
                   </div>
@@ -664,7 +458,6 @@ function Dashboard(props) {
               </CardBody>
             </Card>
           </Col>
-          );
         </Row>
       </div>
     </>

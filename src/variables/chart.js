@@ -1,4 +1,11 @@
 let chart1_2_options = {
+  elements: {
+    point: {
+      radius: 0,
+      hitRadius: 10,
+      pointStyle: false,
+    },
+  },
   maintainAspectRatio: false,
   legend: {
     display: false,
@@ -256,6 +263,13 @@ let chartExample3 = {
     };
   },
   options: {
+    elements: {
+      point: {
+        radius: 0,
+        hitRadius: 10,
+        pointStyle: false,
+      },
+    },
     maintainAspectRatio: false,
     legend: {
       display: false,
@@ -337,6 +351,13 @@ const chartExample4 = {
     };
   },
   options: {
+    elements: {
+      point: {
+        radius: 0,
+        hitRadius: 10,
+        pointStyle: false,
+      },
+    },
     maintainAspectRatio: false,
     legend: {
       display: false,
