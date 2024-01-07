@@ -13,6 +13,9 @@ import Grid from "@material-ui/core/Grid";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
+import ChatBg from "./chat-bg.jpg";
+import SureSourceLogo from "./sureSource.png";
+
 // import users from "./../../data/users";
 import image from "./image.jpg";
 // import authService from "./../service/authService";
@@ -36,14 +39,18 @@ function Copyright() {
 const useStyles = makeStyles((theme) => ({
   root: {
     height: "100vh",
-    backgroundImage: `url(${image})`,
-    backgroundRepeat: "no-repeat",
-    backgroundPosition: "center",
+    backgroundImage: `url(${ChatBg})`,
     backgroundSize: "cover",
-    backgroundColor:
-      theme.palette.type === "light"
-        ? theme.palette.grey[50]
-        : theme.palette.grey[900],
+    backgroundRepeat: "repeat",
+    height: "100%",
+    display: "flex",
+    flexDirection: "column",
+    backgroundPosition: "center",
+    // backgroundSize: "cover",
+    // backgroundColor:
+    //   theme.palette.type === "light"
+    //     ? theme.palette.grey[50]
+    //     : theme.palette.grey[900],
 
     display: "flex",
     alignItems: "center",
@@ -173,9 +180,7 @@ function Login(props) {
         square
       >
         <div className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            <LockOutlinedIcon />
-          </Avatar>
+          <img src={SureSourceLogo}/>
           <Typography component="h1" variant="h5">
             Log in
           </Typography>
