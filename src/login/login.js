@@ -116,13 +116,22 @@ function Login(props) {
 
 
   const handleLogin = ()=>{
+    //TODO: create an empty list of clientFiles and store it in local storage.
+    const clientFiles = [
+        "https://firebasestorage.googleapis.com/v0/b/document-verification-ap-88a6a.appspot.com/o/bot%2F1704547880926_test_document?alt=media&token=14f1c920-5037-4e98-bf13-bbb24a33a34f",
+        "https://firebasestorage.googleapis.com/v0/b/document-verification-ap-88a6a.appspot.com/o/bot%2F1704547934839_test_document?alt=media&token=5620fe28-73da-48c4-a190-5b23830b9b14",
+        "https://firebasestorage.googleapis.com/v0/b/document-verification-ap-88a6a.appspot.com/o/bot%2F1704547959482_test_document?alt=media&token=fa02014d-b579-4028-b434-a56c4add2cdc",    
+    ];
+    
+    // Store the empty list and role in local storage
+    localStorage.setItem('clientFiles', JSON.stringify(clientFiles));
     if(isClient(account.username, account.password)){
         localStorage.setItem("role", "client");
         navigate('/chatbox');
 
     }
     else if(isVerifier(account.username, account.password)){
-        localStorage.setItem("role", "client");
+        localStorage.setItem("role", "verifier");
         navigate('/chatbox-verifier');
     }
     else{

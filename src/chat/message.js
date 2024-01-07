@@ -5,27 +5,35 @@ import DocumentInputMessage from "./documentInputMessage";
 import UploadIcon from "@mui/icons-material/Upload";
 import { storage } from "../firebase/firebase";
 import "./chatbox.css";
-import CloudDoneIcon from '@mui/icons-material/CloudDone';
+import CloudDoneIcon from "@mui/icons-material/CloudDone";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
-function Message({ user, content, isDocumentInput, isUploaded}) {
+function Message({ user, content, isDocumentInput, isUploaded, outputFile }) {
   const message = content;
   const sender = user;
-  const [showDocumentInput, setShowDocumentInput] = useState(isDocumentInput);
-
-//   useEffect(() => {
-//     console.log(message);
-//   }, [message]);
-
+  const [showDocumentInput, setShowDocumentInput] = useState(false);
+  const [showDocumentOutput, setShowDocumentOutput] = useState(false);
   const [uploadedFile, setUploadedFile] = useState(null);
   const [uploading, setUploading] = useState(false);
+
+
+  useEffect(() => {
+    if (isDocumentInput === "input") {
+      setShowDocumentInput(true);
+    } else if (isDocumentInput === "output") {
+      setUploadedFile(outputFile);
+      setShowDocumentOutput(true);
+    }
+  }, [message]);
+
+  
 
   //const sender = "bot";
   const fileInputRef = useRef(null);
 
-//   useEffect(() => {
-//     console.log("Component mounted");
-//   }, []);
+  //   useEffect(() => {
+  //     console.log("Component mounted");
+  //   }, []);
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -72,20 +80,17 @@ function Message({ user, content, isDocumentInput, isUploaded}) {
 
   return (
     <Box className={`message-box ${sender}`}>
-      {!showDocumentInput ? (
-        <Typography>{message}</Typography>
-      ) : (
-        <div>
+      {showDocumentInput ? (
+        // Render document input part
+        <Box>
           <Typography>
-            {uploadedFile
-              ? "File uploaded!"
-              : "Please upload a document for verification. After uploading, click save."}
+            Please upload a document for verification. After uploading, click
+            save.
           </Typography>
-  
+
           {uploadedFile ? (
             <CloudDoneIcon variant="filled" />
           ) : (
-            // Render file upload input if no file is uploaded
             <Box
               style={{
                 marginTop: "20px",
@@ -114,11 +119,29 @@ function Message({ user, content, isDocumentInput, isUploaded}) {
               </Button>
             </Box>
           )}
-        </div>
+        </Box>
+      ) : showDocumentOutput ? (
+        // Render document output part
+        <Box>
+          Click the link to download the file:
+          <Typography>
+            {uploadedFile ? (
+               "Click the link to view the file:",
+              <a href={outputFile} target="_blank" rel="noopener noreferrer">
+                {outputFile}
+              </a>
+            ) : (
+              "No file uploaded."
+            )}
+          </Typography>
+          {/* {uploadedFile && <CloudDoneIcon variant="filled" />} */}
+        </Box>
+      ) : (
+        // Render default message
+        <Typography>{message}</Typography>
       )}
     </Box>
   );
-  
 }
 
 export default Message;

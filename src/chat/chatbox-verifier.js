@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./chatbox.css";
 import Message from "./message";
 import { Box, Typography, TextField } from "@mui/material";
@@ -31,7 +31,7 @@ function ChatBoxVerifier() {
     },
     {
       sender: "bot",
-      text: "Do you want to get more documents verified?",
+      text: "Do you want to verify the next document?",
       sequenceNumber: 5,
     },
     //if user says yes to "more documents" then display msg number 4
@@ -44,6 +44,28 @@ function ChatBoxVerifier() {
     },
   ];
 
+  const [clientFiles, setClientFiles] = useState();
+
+  const [seqNumber, setSeqNumber] = useState(2);
+  const [currentFile, setCurrentFile] = useState("");
+  const [showDocumentInput, setShowDocumentInput] = useState(false);
+
+  const [inputMessage, setInputMessage] = useState("");
+  const [isUploaded, setIsUploaded] = useState(false);
+
+  useEffect(() => {
+    const storedClientFiles = localStorage.getItem("clientFiles");
+
+    if (storedClientFiles) {
+      try {
+        const parsedClientFiles = JSON.parse(storedClientFiles);
+        setClientFiles(parsedClientFiles);
+      } catch (error) {
+        console.error("Error parsing clientFiles from local storage:", error);
+      }
+    }
+  }, [botMessages]);
+
   const getMessageBySequenceNumber = (sequenceNumber) => {
     const message = botMessages.find(
       (msg) => msg.sequenceNumber === sequenceNumber
@@ -51,14 +73,23 @@ function ChatBoxVerifier() {
     return message || null; // Return null if the message is not found
   };
 
-  const [seqNumber, setSeqNumber] = useState(2);
   const botFirstMessage = getMessageBySequenceNumber(1);
-  const [showDocumentInput, setShowDocumentInput] = useState(false);
+
   const [messages, setMessages] = useState([
     { text: botFirstMessage.text, sender: botFirstMessage.sender },
   ]);
-  const [inputMessage, setInputMessage] = useState("");
-  const [isUploaded, setIsUploaded] = useState(false);
+
+  //   useEffect(() => {
+  //     // Check if seqNumber is 3
+  //     if (seqNumber === 3 && clientFiles.length > 0) {
+  //       // Get the next file from clientFiles and set it as the currentFile
+  //       const nextFile = clientFiles.shift(); // Remove the first element from the array
+  //       setCurrentFile(nextFile);
+
+  //       // Update the clientFiles in local storage without the processed file
+  //       localStorage.setItem("clientFiles", JSON.stringify(clientFiles));
+  //     }
+  //   }, [seqNumber, clientFiles]);
 
   const handleSetSeqNumber = (value) => {
     const newValue = value; // Replace with the value you want
@@ -105,41 +136,49 @@ function ChatBoxVerifier() {
         } else if (inputMessage == "yes") {
           handleSetSeqNumber(3);
           botMessage = getMessageBySequenceNumber(3);
-          console.log("displaying document input************5");
-          setShowDocumentInput(true);
+          console.log("displaying document output************5");
+          const nextFile = clientFiles.shift(); // Remove the first element from the array
+          setCurrentFile(nextFile);
+
+          // Update the clientFiles in local storage without the processed file
+          localStorage.setItem("clientFiles", JSON.stringify(clientFiles));
+          //setShowDocumentInput(true);
         }
-      } else if (seqNumber == 3) {
-        if (inputMessage == "no") {
-          console.log("said no*****************");
-          handleSetSeqNumber(seqNumber + 1); //4
-          botMessage = getMessageBySequenceNumber(4);
-          //seqNumber = 4;
-        } else if (inputMessage == "yes") {
-          //setSeqNumber(seqNumber+1);
-          console.log("displaying document input************3");
-          //seqNumber = 3;
-          botMessage = getMessageBySequenceNumber(3);
-          setShowDocumentInput(true);
-        }
+      } else if (seqNumber === 3) {
+        // Display client files as separate messages
+        const clientFilesMessages = clientFiles.map((file) => ({
+          text: "file",
+          sender: "bot",
+          isDocumentInput: "output",
+          outputFile: file,
+        }));
+  
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          { text: inputMessage, sender: "user", isDocumentInput: null },
+          ...clientFilesMessages,
+        ]);
+  
+        // Update the clientFiles in local storage without the processed files
+        localStorage.setItem("clientFiles", JSON.stringify([]));
+        handleSetSeqNumber(4);
       } else {
         botMessage = getMessageBySequenceNumber(seqNumber);
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          { text: inputMessage, sender: "user", isDocumentInput: null },
+          {
+            text: botMessage.text,
+            sender: botMessage.sender,
+            isDocumentInput: seqNumber === 3 ? "output" : null,
+          },
+        ]);
+  
+        if (seqNumber < 6) {
+          handleSetSeqNumber(seqNumber + 1);
+        }
       }
-
-      console.log(botMessage.text, " ", botMessage.sequenceNumber);
-      setMessages([
-        ...messages,
-        { text: inputMessage, sender: "user", isDocumentInput: false },
-        {
-          text: botMessage.text,
-          sender: botMessage.sender,
-          isDocumentInput: botMessage.sequenceNumber == 3 ? true : false,
-        },
-      ]);
-
-      if (seqNumber < 6) {
-        handleSetSeqNumber(seqNumber + 1);
-      }
-
+  
       setInputMessage("");
     }
   };
@@ -159,6 +198,8 @@ function ChatBoxVerifier() {
                   content={message.text}
                   isUploaded={afterUpload}
                   isDocumentInput={message.isDocumentInput}
+                  outputFile={message.outputFile}
+                  //isVerifier={message.isVerifier}
                 />
               </div>
             ))}

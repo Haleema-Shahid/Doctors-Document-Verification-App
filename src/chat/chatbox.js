@@ -132,7 +132,7 @@ function ChatBox() {
         {
           text: botMessage.text,
           sender: botMessage.sender,
-          isDocumentInput: botMessage.sequenceNumber == 3 ? true : false,
+          isDocumentInput: botMessage.sequenceNumber == 3 ? "input" : null,
         },
       ]);
 
