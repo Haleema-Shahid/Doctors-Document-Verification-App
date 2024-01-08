@@ -138,7 +138,7 @@ export default function OnBoarding() {
         }}
       >
         <span style={{ fontWeight: "bolder", fontSize: "60px" }}>
-          Welcome to SureSource
+          Welcome to eDoc Veriff
         </span>
         <div style={{ fontWeight: "normal", fontSize: "25px" }}>
           Get Your Documents verified with ease
@@ -185,7 +185,7 @@ export default function OnBoarding() {
             position: "relative",
           }}
         >
-          Chat with out ChatBot{" "}
+          Chat with our ChatBot{" "}
           <span style={{ position: "absolute", top: -11 }}>🤖</span>
         </span>
         {/* <div
