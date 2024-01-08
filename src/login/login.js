@@ -14,7 +14,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import ChatBg from "./chat-bg.jpg";
-import SureSourceLogo from "./sureSource.png";
+//import SureSourceLogo from "./sureSource.png";
 
 // import users from "./../../data/users";
 import image from "./image.jpg";
@@ -180,7 +180,7 @@ function Login(props) {
         square
       >
         <div className={classes.paper}>
-          <img src={SureSourceLogo}/>
+          {/* <img src={SureSourceLogo}/> */}
           <Typography component="h1" variant="h5">
             Log in
           </Typography>
