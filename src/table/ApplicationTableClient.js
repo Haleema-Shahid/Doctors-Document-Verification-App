@@ -11,7 +11,7 @@ export default function ApplicationTable() {
   const handleReferenceIdClick = (referenceId) => {
     // Add your logic here for handling the click event
     console.log(`Reference ID clicked: ${referenceId}`);
-    //navigate("/chatbox-verifier");
+    navigate("/chatbox");
   };
 
   useEffect(() => {
@@ -62,9 +62,16 @@ export default function ApplicationTable() {
               {data.map((item) => (
                 <tr key={item.id}>
                   <td className="table-id">
-                    
+                    {item.status === "In Progress" ? (
+                      <a
+                        href="#"
+                        onClick={() => handleReferenceIdClick(item.id)}
+                      >
                         {item.id}
-                    
+                      </a>
+                    ) : (
+                      item.id
+                    )}
                   </td>
                   <td>{item.name}</td>
                   <td>{item.email}</td>
