@@ -136,11 +136,11 @@ function ChatBoxVerifier() {
         isUploaded
       );
       if (seqNumber == 5) {
-        if (inputMessage == "no") {
+        if (inputMessage.toLocaleLowerCase().includes("no")) {
           console.log("said no*****************");
           handleSetSeqNumber(6);
           botMessage = getMessageBySequenceNumber(6);
-        } else if (inputMessage == "yes") {
+        } else if (inputMessage.toLowerCase().includes("yes")) {
           handleSetSeqNumber(3);
           botMessage = getMessageBySequenceNumber(3);
           console.log("displaying document output************5");
@@ -152,7 +152,7 @@ function ChatBoxVerifier() {
           //setShowDocumentInput(true);
         }
       } else if (seqNumber === 3) {
-        if (inputMessage === "no") {
+        if (inputMessage.toLowerCase().includes("no")) {
           setShowInput(false);
           botMessage = getMessageBySequenceNumber(7);
           setMessages((prevMessages) => [
@@ -269,7 +269,7 @@ function ChatBoxVerifier() {
                 placeholder="Type your message..."
                 value={inputMessage}
                 onChange={(e) => setInputMessage(e.target.value)}
-                //onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
+                onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
               ></TextField>
               <button className={"send-button"} onClick={handleSendMessage}>
                 <SendIcon />

@@ -100,24 +100,24 @@ function ChatBox() {
         isUploaded
       );
       if (seqNumber == 5) {
-        if (inputMessage == "no") {
+        if (inputMessage.toLowerCase().includes("no")) {
           console.log("said no*****************");
           handleSetSeqNumber(6);
           botMessage = getMessageBySequenceNumber(6);
-        } else if (inputMessage == "yes") {
+        } else if (inputMessage.toLowerCase().includes("yes")) {
           handleSetSeqNumber(3);
           botMessage = getMessageBySequenceNumber(3);
           console.log("displaying document input************5");
           setShowDocumentInput(true);
         }
       } else if (seqNumber == 3) {
-        if (inputMessage == "no") {
+        if (inputMessage.toLowerCase().includes("no")) {
           console.log("said no*****************");
           handleSetSeqNumber(seqNumber + 1); //4
           botMessage = getMessageBySequenceNumber(4);
           setShowInput(false);
           //seqNumber = 4;
-        } else if (inputMessage == "yes") {
+        } else if (inputMessage.toLowerCase().includes("yes")) {
           //setSeqNumber(seqNumber+1);
           console.log("displaying document input************3");
           //seqNumber = 3;
@@ -148,15 +148,17 @@ function ChatBox() {
   };
 
   return (
-    <div className="App"
-    style={{
-      backgroundImage: `url(${ChatBg})`,
-      backgroundSize: "cover",
-      backgroundRepeat: "repeat",
-      height: "100%",
-      display: "flex",
-      flexDirection: "column",
-    }}>
+    <div
+      className="App"
+      style={{
+        backgroundImage: `url(${ChatBg})`,
+        backgroundSize: "cover",
+        backgroundRepeat: "repeat",
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
       <Header />
       <div className="chatbox">
         <div className="chat-container">
@@ -178,30 +180,32 @@ function ChatBox() {
             )} */}
           </div>
 
-          {showInput && (<div className="chat-input">
-            <TextField
-              variant="standard"
-              style={{
-                flex: "1",
-                //resize: "none",
-                overflowY: "auto",
-                maxHeight: "600px",
-                scrollbarWidth: "thin",
-                scrollbarColor: "#4caf50 #e0e0e0",
-                width: "100%",
-                zIndex: "0",
-              }}
-              multiline
-              maxRows={5}
-              placeholder="Type your message..."
-              value={inputMessage}
-              onChange={(e) => setInputMessage(e.target.value)}
-              //onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
-            ></TextField>
-            <button className={"send-button"} onClick={handleSendMessage}>
-              <SendIcon />
-            </button>
-          </div>)}
+          {showInput && (
+            <div className="chat-input">
+              <TextField
+                variant="standard"
+                style={{
+                  flex: "1",
+                  //resize: "none",
+                  overflowY: "auto",
+                  maxHeight: "600px",
+                  scrollbarWidth: "thin",
+                  scrollbarColor: "#4caf50 #e0e0e0",
+                  width: "100%",
+                  zIndex: "0",
+                }}
+                multiline
+                maxRows={5}
+                placeholder="Type your message..."
+                value={inputMessage}
+                onChange={(e) => setInputMessage(e.target.value)}
+                onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
+              ></TextField>
+              <button className={"send-button"} onClick={handleSendMessage}>
+                <SendIcon />
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>

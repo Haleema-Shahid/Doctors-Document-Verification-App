@@ -5,17 +5,13 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
 import { useNavigate } from "react-router-dom";
-import SureSourceLogo from "./sureSource.png";
 
-const pages = ["Products", "Pricing", "Blog"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 function Header() {
@@ -81,13 +77,6 @@ function Header() {
         }}
       >
         <Toolbar disableGutters>
-          <img
-            src={SureSourceLogo}
-            style={{
-              width: "150px",
-              height: "auto",
-            }}
-          />
           {/* <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} /> */}
           <Typography
             variant="h6"
@@ -102,9 +91,10 @@ function Header() {
               letterSpacing: ".3rem",
               color: "inherit",
               textDecoration: "none",
+              fontFamily: "Poppins",
             }}
           >
-            SureSource
+            eDoc Veriff
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -165,7 +155,7 @@ function Header() {
               textDecoration: "none",
             }}
           >
-            LOGO
+            eDoc Veriff
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {userRole === "verifier" ? (
@@ -183,7 +173,6 @@ function Header() {
                     backgroundColor: "#1976D2", // Change background color on hover
                     color: "white", // Change text color on hover
                   },
-                  
                 }}
               >
                 Dashboard
@@ -233,7 +222,7 @@ function Header() {
             )}
             <Button
               //key={page}
-              onClick={handleChatClick}
+
               sx={{
                 my: 2,
                 mx: 1,
@@ -275,9 +264,13 @@ function Header() {
             >
               {settings.map((setting) => (
                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center" onClick={handleLogout}>
-                    {setting}
-                  </Typography>
+                  {setting === "Logout" ? (
+                    <Typography textAlign="center" onClick={handleLogout}>
+                      {setting}
+                    </Typography>
+                  ) : (
+                    <Typography textAlign="center">{setting}</Typography>
+                  )}
                 </MenuItem>
               ))}
             </Menu>
