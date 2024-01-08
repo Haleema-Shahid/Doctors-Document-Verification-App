@@ -141,7 +141,7 @@ function Login(props) {
     if (isClient(account.username, account.password)) {
       localStorage.setItem("role", "client");
       successToast("Login Successfull");
-      navigate("/chatbox");
+      navigate("/application-table-client");
     } else if (isVerifier(account.username, account.password)) {
       localStorage.setItem("role", "verifier");
       successToast("Login Successfull");

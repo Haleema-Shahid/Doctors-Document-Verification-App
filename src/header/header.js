@@ -39,7 +39,13 @@ function Header() {
   };
 
   const handleApplicationsClick = () => {
-    navigate("/application-table");
+    console.log("handleApplicationsClick")
+    if(userRole === "verifier"){
+      navigate("/application-table");
+    }
+    else if (userRole==="client"){
+      navigate("/application-table-client");
+    }
   };
 
   const handleChatClick = () => {
@@ -183,7 +189,13 @@ function Header() {
                 Applications
               </Button>
             ) : (
-              " "
+              <Button
+                //key={page}
+                onClick={handleApplicationsClick}
+                sx={{ my: 2, color: "white", display: "block" }}
+              >
+                Your Application(s)
+              </Button>
             )}
             <Button
               //key={page}

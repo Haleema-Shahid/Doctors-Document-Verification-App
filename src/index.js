@@ -8,6 +8,7 @@ import ChatBox from "./chat/chatbox";
 import Login from "./login/login";
 import ChatBoxVerifier from "./chat/chatbox-verifier";
 import ApplicationTable from "./table/ApplicationTable";
+import ApplicationTableClient from "./table/ApplicationTableClient";
 import Dashboard from "./dashboard/Dashboard";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -34,6 +35,7 @@ root.render(
         <Route path="/" element={<Login />} />
         <Route path="/chatbox-verifier" element={<ChatBoxVerifier />} />
         <Route path="/application-table" element={<ApplicationTable />} />
+        <Route path="/application-table-client" element={<ApplicationTableClient />} />
         <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </Router>
