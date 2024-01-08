@@ -17,7 +17,7 @@ export default function ApplicationTable() {
   useEffect(() => {
     const role = localStorage.getItem("role");
     if (role === null || role !== "client") {
-      navigate("/chatbox");
+      navigate("/chatbox-verifier");
     }
   }, [navigate]);
   const role = localStorage.getItem("role");
