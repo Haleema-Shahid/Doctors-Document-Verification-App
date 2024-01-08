@@ -12,6 +12,7 @@ import ApplicationTableClient from "./table/ApplicationTableClient";
 import Dashboard from "./dashboard/Dashboard";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import OnBoarding from "./onboarding/OnBoarding";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -35,8 +36,12 @@ root.render(
         <Route path="/" element={<Login />} />
         <Route path="/chatbox-verifier" element={<ChatBoxVerifier />} />
         <Route path="/application-table" element={<ApplicationTable />} />
-        <Route path="/application-table-client" element={<ApplicationTableClient />} />
+        <Route
+          path="/application-table-client"
+          element={<ApplicationTableClient />}
+        />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/onboarding" element={<OnBoarding />} />
       </Routes>
     </Router>
   </React.StrictMode>

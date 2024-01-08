@@ -39,11 +39,10 @@ function Header() {
   };
 
   const handleApplicationsClick = () => {
-    console.log("handleApplicationsClick")
-    if(userRole === "verifier"){
+    console.log("handleApplicationsClick");
+    if (userRole === "verifier") {
       navigate("/application-table");
-    }
-    else if (userRole==="client"){
+    } else if (userRole === "client") {
       navigate("/application-table-client");
     }
   };
@@ -156,6 +155,7 @@ function Header() {
             href="#app-bar-with-responsive-menu"
             sx={{
               mr: 2,
+              mx: 1,
               display: { xs: "flex", md: "none" },
               flexGrow: 1,
               fontFamily: "monospace",
@@ -172,7 +172,19 @@ function Header() {
               <Button
                 //key={page}
                 onClick={handleDashboardClick}
-                sx={{ my: 2, color: "white", display: "block" }}
+                sx={{
+                  my: 2,
+                  mx: 1,
+                  color: "#1976D2",
+                  display: "block",
+                  border: "1px solid white",
+                  backgroundColor: "white", // Set initial background color
+                  "&:hover": {
+                    backgroundColor: "#1976D2", // Change background color on hover
+                    color: "white", // Change text color on hover
+                  },
+                  
+                }}
               >
                 Dashboard
               </Button>
@@ -184,7 +196,18 @@ function Header() {
               <Button
                 //key={page}
                 onClick={handleApplicationsClick}
-                sx={{ my: 2, color: "white", display: "block" }}
+                sx={{
+                  my: 2,
+                  mx: 1,
+                  color: "#1976D2",
+                  display: "block",
+                  border: "1px solid white",
+                  backgroundColor: "white", // Set initial background color
+                  "&:hover": {
+                    backgroundColor: "#1976D2", // Change background color on hover
+                    color: "white", // Change text color on hover
+                  },
+                }}
               >
                 Applications
               </Button>
@@ -192,7 +215,18 @@ function Header() {
               <Button
                 //key={page}
                 onClick={handleApplicationsClick}
-                sx={{ my: 2, color: "white", display: "block" }}
+                sx={{
+                  my: 2,
+                  mx: 1,
+                  color: "#1976D2",
+                  display: "block",
+                  border: "1px solid white",
+                  backgroundColor: "white", // Set initial background color
+                  "&:hover": {
+                    backgroundColor: "#1976D2", // Change background color on hover
+                    color: "white", // Change text color on hover
+                  },
+                }}
               >
                 Your Application(s)
               </Button>
@@ -200,7 +234,18 @@ function Header() {
             <Button
               //key={page}
               onClick={handleChatClick}
-              sx={{ my: 2, color: "white", display: "block" }}
+              sx={{
+                my: 2,
+                mx: 1,
+                color: "#1976D2",
+                display: "block",
+                border: "1px solid white",
+                backgroundColor: "white", // Set initial background color
+                "&:hover": {
+                  backgroundColor: "#1976D2", // Change background color on hover
+                  color: "white", // Change text color on hover
+                },
+              }}
             >
               Let's Talk
             </Button>
