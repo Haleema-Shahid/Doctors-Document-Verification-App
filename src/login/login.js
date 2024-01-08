@@ -141,11 +141,21 @@ function Login(props) {
     if (isClient(account.username, account.password)) {
       localStorage.setItem("role", "client");
       successToast("Login Successfull");
-      navigate("/application-table-client");
+      const isFirstTime = localStorage.getItem("firstTime");
+      if (isFirstTime === null || isFirstTime === "true") {
+        navigate("/onboarding");
+      } else {
+        navigate("/application-table-client");
+      }
     } else if (isVerifier(account.username, account.password)) {
       localStorage.setItem("role", "verifier");
       successToast("Login Successfull");
-      navigate("/dashboard");
+      const isFirstTime = localStorage.getItem("firstTime");
+      if (isFirstTime === null || isFirstTime == true) {
+        navigate("/onboarding");
+      } else {
+        navigate("/dashboard");
+      }
     } else {
       console.log("Nope");
       //TODO: show a toast or something for invalid credentials
@@ -180,7 +190,7 @@ function Login(props) {
         square
       >
         <div className={classes.paper}>
-          <img src={SureSourceLogo}/>
+          <img src={SureSourceLogo} />
           <Typography component="h1" variant="h5">
             Log in
           </Typography>
