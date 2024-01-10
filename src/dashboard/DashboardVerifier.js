@@ -280,7 +280,7 @@ const graphOptions = {
     },
   },
 };
-function Dashboard(props) {
+function DashboardVerifier(props) {
   const navigate = useNavigate();
   const [bigChartData, setbigChartData] = React.useState("data1");
   const setBgChartData = (name) => {
@@ -317,7 +317,7 @@ function Dashboard(props) {
                 color="#4848b0b3"
                 chartData={chartExample3.data}
                 chartOptions={chartExample3.options}
-                number={20}
+                number={520}
                 text="Verified Applications"
               />
             </Col>
@@ -326,7 +326,7 @@ function Dashboard(props) {
                 color="#00d6b4"
                 chartData={chartExample4.data}
                 chartOptions={chartExample4.options}
-                number={5}
+                number={25}
                 text="Irregular Applications"
               />
             </Col>
@@ -335,7 +335,7 @@ function Dashboard(props) {
                 color="#1f8ef1"
                 chartData={chartExample1.data1}
                 chartOptions={chartExample1.options}
-                number={10}
+                number={9000}
                 text="Rejected Applications"
               />
             </Col>
@@ -415,7 +415,7 @@ function Dashboard(props) {
                           fontSize: "25px",
                         }}
                       >
-                        40
+                        51,032
                       </div>
                     </div>
                     <div
@@ -435,7 +435,7 @@ function Dashboard(props) {
                           fontSize: "25px",
                         }}
                       >
-                        24
+                        3,561
                       </div>
                     </div>
                     <div
@@ -460,7 +460,7 @@ function Dashboard(props) {
                           fontSize: "25px",
                         }}
                       >
-                        6
+                        13,651
                       </div>
                     </div>
                   </div>
@@ -476,4 +476,4 @@ function Dashboard(props) {
   }
 }
 
-export default Dashboard;
+export default DashboardVerifier;

@@ -92,6 +92,18 @@ thead {
   align-items: center;
 }
 
+.custom-button-2{
+  margin-left: 15px;
+  padding: 8px 18px;
+  border: 2px solid #7299c2; /* Blue border color */
+  background-color: #fff; /* White background color */
+  color: #7299c2; /* Blue text color */
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
 .arrow {
   margin-left: 15px;
 }

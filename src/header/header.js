@@ -40,6 +40,8 @@ function Header() {
       navigate("/application-table");
     } else if (userRole === "client") {
       navigate("/application-table-client");
+    } else if (userRole === "admin") {
+      navigate("/admin-table");
     }
   };
 
@@ -53,7 +55,12 @@ function Header() {
   };
 
   const handleDashboardClick = () => {
-    navigate("/dashboard");
+    const role = localStorage.getItem("role");
+    if (role === "admin") {
+      navigate("/dashboard-verifier");
+    } else {
+      navigate("/dashboard");
+    }
   };
 
   const handleLogout = () => {
@@ -83,8 +90,8 @@ function Header() {
             noWrap
             component="a"
             href="#app-bar-with-responsive-menu"
-            sx={{
-              mr: 50,
+            style={{
+              marginRight: "20px",
               display: { xs: "none", md: "flex" },
               fontFamily: "monospace",
               fontWeight: 700,
@@ -158,21 +165,33 @@ function Header() {
             eDoc Veriff
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {userRole === "verifier" ? (
+            {userRole === "verifier" || userRole === "admin" ? (
               <Button
                 //key={page}
                 onClick={handleDashboardClick}
-                sx={{
-                  my: 2,
-                  mx: 1,
+                style={{
+                  padding: "22px",
+                  height: "100%",
                   color: "#1976D2",
                   display: "block",
-                  border: "1px solid white",
-                  backgroundColor: "white", // Set initial background color
+                  fontWeight: "bold",
+                  //borderLeft: "1px solid white",
+                  //borderRight: "1px solid white",
+                  borderRadius: "0px",
+                  color: "white",
+                  //backgroundColor: "white", // Set initial background color
                   "&:hover": {
-                    backgroundColor: "#1976D2", // Change background color on hover
-                    color: "white", // Change text color on hover
+                    backgroundColor: "white", // Change background color on hover
+                    color: "#1976D2", // Change text color on hover
                   },
+                }}
+                onMouseOver={(e) => {
+                  e.target.style.backgroundColor = "white"; // Change background color on hover
+                  e.target.style.color = "#1976D2"; // Change text color on hover
+                }}
+                onMouseOut={(e) => {
+                  e.target.style.backgroundColor = "transparent"; // Reset background color on hover out
+                  e.target.style.color = "white"; // Reset text color on hover out
                 }}
               >
                 Dashboard
@@ -181,21 +200,33 @@ function Header() {
               " "
             )}
 
-            {userRole === "verifier" ? (
+            {userRole === "verifier" || userRole === "admin" ? (
               <Button
                 //key={page}
                 onClick={handleApplicationsClick}
-                sx={{
-                  my: 2,
-                  mx: 1,
+                style={{
+                  padding: "22px",
+                  height: "100%",
                   color: "#1976D2",
                   display: "block",
-                  border: "1px solid white",
-                  backgroundColor: "white", // Set initial background color
+                  fontWeight: "bold",
+                  //borderLeft: "1px solid white",
+                  //borderRight: "1px solid white",
+                  borderRadius: "0px",
+                  color: "white",
+                  //backgroundColor: "white", // Set initial background color
                   "&:hover": {
-                    backgroundColor: "#1976D2", // Change background color on hover
-                    color: "white", // Change text color on hover
+                    backgroundColor: "white", // Change background color on hover
+                    color: "#1976D2", // Change text color on hover
                   },
+                }}
+                onMouseOver={(e) => {
+                  e.target.style.backgroundColor = "white"; // Change background color on hover
+                  e.target.style.color = "#1976D2"; // Change text color on hover
+                }}
+                onMouseOut={(e) => {
+                  e.target.style.backgroundColor = "transparent"; // Reset background color on hover out
+                  e.target.style.color = "white"; // Reset text color on hover out
                 }}
               >
                 Applications
@@ -204,17 +235,28 @@ function Header() {
               <Button
                 //key={page}
                 onClick={handleApplicationsClick}
-                sx={{
-                  my: 2,
-                  mx: 1,
+                style={{
+                  padding: "22px",
+                  height: "100%",
                   color: "#1976D2",
                   display: "block",
-                  border: "1px solid white",
-                  backgroundColor: "white", // Set initial background color
+                  fontWeight: "bold",
+                  //borderLeft: "1px solid white",
+                  borderRadius: "0px",
+                  color: "white",
+                  //backgroundColor: "white", // Set initial background color
                   "&:hover": {
-                    backgroundColor: "#1976D2", // Change background color on hover
-                    color: "white", // Change text color on hover
+                    backgroundColor: "white", // Change background color on hover
+                    color: "#1976D2", // Change text color on hover
                   },
+                }}
+                onMouseOver={(e) => {
+                  e.target.style.backgroundColor = "white"; // Change background color on hover
+                  e.target.style.color = "#1976D2"; // Change text color on hover
+                }}
+                onMouseOut={(e) => {
+                  e.target.style.backgroundColor = "transparent"; // Reset background color on hover out
+                  e.target.style.color = "white"; // Reset text color on hover out
                 }}
               >
                 Your Application(s)
@@ -223,17 +265,29 @@ function Header() {
             <Button
               //key={page}
 
-              sx={{
-                my: 2,
-                mx: 1,
+              style={{
+                padding: "22px",
+                height: "100%",
                 color: "#1976D2",
                 display: "block",
-                border: "1px solid white",
-                backgroundColor: "white", // Set initial background color
+                fontWeight: "bold",
+                //borderLeft: "1px solid white",
+                //borderRight: "1px solid white",
+                borderRadius: "0px",
+                color: "white",
+                //backgroundColor: "white", // Set initial background color
                 "&:hover": {
-                  backgroundColor: "#1976D2", // Change background color on hover
-                  color: "white", // Change text color on hover
+                  backgroundColor: "white", // Change background color on hover
+                  color: "#1976D2", // Change text color on hover
                 },
+              }}
+              onMouseOver={(e) => {
+                e.target.style.backgroundColor = "white"; // Change background color on hover
+                e.target.style.color = "#1976D2"; // Change text color on hover
+              }}
+              onMouseOut={(e) => {
+                e.target.style.backgroundColor = "transparent"; // Reset background color on hover out
+                e.target.style.color = "white"; // Reset text color on hover out
               }}
             >
               Let's Talk

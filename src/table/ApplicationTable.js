@@ -52,6 +52,7 @@ export default function ApplicationTable() {
                 <th>PASSPORT ID</th>
                 <th>CATEGORY</th>
                 <th>TYPE</th>
+                <th>PAYMENT</th>
                 <th>APPLIED ON</th>
                 <th>DOC VERIFIED</th>
                 <th>STATUS</th>
@@ -77,6 +78,7 @@ export default function ApplicationTable() {
                   <td>{item.passportId}</td>
                   <td>{item.category}</td>
                   <td>{item.type}</td>
+                  <td><CustomBadge status="Verified" /></td>
                   <td>
                     {item.appliedOn
                       .toLocaleDateString("en-US", {

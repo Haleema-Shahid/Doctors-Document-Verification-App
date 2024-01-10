@@ -124,6 +124,21 @@ function ChatBoxVerifier() {
     setShowDocumentInput(true);
   };
 
+  const getDocumentType = (index) => {
+    if (index === 0) {
+      return "Primary Education document";
+    }
+    if (index === 1) {
+      return "Secondary Education document";
+    }
+    if (index === 2) {
+      return "Bachelor's or equivalent document";
+    }
+    if (index === 3) {
+      return "Specialization document";
+    }
+    return "other document";
+  };
   const handleSendMessage = () => {
     let botMessage = {};
     if (inputMessage.trim() !== "") {
@@ -167,8 +182,8 @@ function ChatBoxVerifier() {
           ]);
         } else {
           // Display client files as separate messages
-          const clientFilesMessages = clientFiles.map((file) => ({
-            text: "file",
+          const clientFilesMessages = clientFiles.map((file, index) => ({
+            text: getDocumentType(index),
             sender: "bot",
             isDocumentInput: "output",
             outputFile: file,
@@ -183,7 +198,7 @@ function ChatBoxVerifier() {
           ]);
 
           // Update the clientFiles in local storage without the processed files
-          localStorage.setItem("clientFiles", JSON.stringify([]));
+          //localStorage.setItem("clientFiles", JSON.stringify([]));
           handleSetSeqNumber(4);
         }
       } else {
@@ -206,49 +221,50 @@ function ChatBoxVerifier() {
       setInputMessage("");
     }
   };
-
   return (
     <div
-      className="App"
+      //className="App"
       style={{
         backgroundImage: `url(${ChatBg})`,
         backgroundSize: "cover",
         backgroundRepeat: "repeat",
+        // overflow: "hidden",
+        //minHeight: "100vh",
+        position: "relative",
         height: "100%",
         display: "flex",
         flexDirection: "column",
       }}
     >
       <Header />
-
       <div className="chatbox">
         <div className="chat-container">
-          <Button
+          <div className="add-scrollbar"
             style={{
-              backgroundColor: "#173a73",
-              color: "white",
+              width: "65%",
+              overflowY: "auto",
+              height: "600px",
+              display: "inline-grid",
             }}
           >
-            Mark as verified
-          </Button>
-          <div className="chat-messages">
-            {messages.map((message, index) => (
-              <div key={index} className={`message`}>
-                {/* {console.log(message.text)}
+            <div className="chat-messages">
+              {messages.map((message, index) => (
+                <div key={index} className={`message`}>
+                  {/* {console.log(message.text)}
                 {console.log(seqNumber)} */}
-                <Message
-                  user={message.sender}
-                  content={message.text}
-                  isUploaded={afterUpload}
-                  isDocumentInput={message.isDocumentInput}
-                  outputFile={message.outputFile}
-                  //isVerifier={message.isVerifier}
-                />
-              </div>
-            ))}
-            {/* {showDocumentInput && (
+                  <Message
+                    user={message.sender}
+                    content={message.text}
+                    isUploaded={handleSendMessage}
+                    isDocumentInput={message.isDocumentInput}
+                    outputFile={message.outputFile}
+                  />
+                </div>
+              ))}
+              {/* {showDocumentInput && (
               <DocumentInputMessage isUploaded={setIsUploaded} />
             )} */}
+            </div>
           </div>
           {showInput && (
             <div className="chat-input">

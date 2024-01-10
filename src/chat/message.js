@@ -16,7 +16,6 @@ function Message({ user, content, isDocumentInput, isUploaded, outputFile }) {
   const [uploadedFile, setUploadedFile] = useState(null);
   const [uploading, setUploading] = useState(false);
 
-
   useEffect(() => {
     if (isDocumentInput === "input") {
       setShowDocumentInput(true);
@@ -26,10 +25,9 @@ function Message({ user, content, isDocumentInput, isUploaded, outputFile }) {
     }
   }, [message]);
 
-  
-
   //const sender = "bot";
   const fileInputRef = useRef(null);
+  const [verified, setVerified] = useState(false);
 
   //   useEffect(() => {
   //     console.log("Component mounted");
@@ -78,14 +76,17 @@ function Message({ user, content, isDocumentInput, isUploaded, outputFile }) {
     fileInputRef.current.click();
   };
 
+  const handleVerifyClick = () =>{
+    setVerified(true);
+  }
+
   return (
     <Box className={`message-box ${sender}`}>
       {showDocumentInput ? (
         // Render document input part
         <Box>
           <Typography>
-            Please upload a document for verification. After uploading, click
-            save.
+            Please upload {message} document(s) for verification.
           </Typography>
 
           {uploadedFile ? (
@@ -123,16 +124,37 @@ function Message({ user, content, isDocumentInput, isUploaded, outputFile }) {
       ) : showDocumentOutput ? (
         // Render document output part
         <Box>
-          Click the link to download the file:
+          Click the link to download the {message}:
           <Typography>
-            {uploadedFile ? (
-               "Click the link to view the file:",
-              <a href={outputFile} target="_blank" rel="noopener noreferrer">
-                {outputFile}
-              </a>
-            ) : (
-              "No file uploaded."
-            )}
+            {uploadedFile
+              ? ("Click the link to view the file:",
+                (
+                  <div
+                  style={{
+                    display: "flex",
+                  }}>
+                    <a
+                      href={outputFile}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {outputFile}
+                    </a>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      style={{
+                        height: "50%"
+                      }}
+                      onClick={handleVerifyClick}
+                      //startIcon={<UploadIcon />}
+                      disabled={verified}
+                    >
+                      Verify
+                    </Button>
+                  </div>
+                ))
+              : "No file uploaded."}
           </Typography>
           {/* {uploadedFile && <CloudDoneIcon variant="filled" />} */}
         </Box>

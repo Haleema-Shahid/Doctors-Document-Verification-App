@@ -21,18 +21,18 @@ function ChatBox() {
     {
       //if user says yes to "documents ready?"
       sender: "bot",
-      text: "Great!",
+      text: "Primary Education",
       sequenceNumber: 3,
     },
     {
       //if user says no to "documents ready?"
       sender: "bot",
-      text: "Please get your documents so we can proceed",
+      text: "Secondary Education",
       sequenceNumber: 4,
     },
     {
       sender: "bot",
-      text: "Do you want to get more documents verified?",
+      text: "Bachelor's or equivalent",
       sequenceNumber: 5,
     },
     //if user says yes to "more documents" then display msg number 4
@@ -40,10 +40,43 @@ function ChatBox() {
     {
       //if user says no to "more documents"
       sender: "bot",
-      text: "Thank you for submitting your documents! I will email you once your documents have been verified by our certified verifier",
+      text: "Specialization",
       sequenceNumber: 6,
     },
+    {
+      //if user says no to "more documents"
+      sender: "bot",
+      text: "Other",
+      sequenceNumber: 7,
+    },
+    {
+      //if user says no to "more documents"
+      sender: "bot",
+      text: "Let's chat again when you have your documents ready!",
+      sequenceNumber: 8,
+    },
+    {
+      //if user says no to "more documents"
+      sender: "bot",
+      text: "Thank you for submitting your docs! I will email you once our certified verifier has verified your documents. You can view your application progress in Your Application(s) tab.",
+      sequenceNumber: 9,
+    },
   ];
+
+  const [showInput, setShowInput] = useState(true);
+  const [seqNumber, setSeqNumber] = useState(2);
+
+  const botFirstMessage = {
+    sender: "bot",
+    text: "Hello! How are you?",
+    sequenceNumber: 1,
+  };
+  //const [showDocumentInput, setShowDocumentInput] = useState(false);
+  const [messages, setMessages] = useState([
+    { text: botFirstMessage.text, sender: botFirstMessage.sender, sequenceNumber: botFirstMessage.sequenceNumber },
+  ]);
+  const [inputMessage, setInputMessage] = useState("");
+  const [isUploaded, setIsUploaded] = useState(false);
 
   const getMessageBySequenceNumber = (sequenceNumber) => {
     const message = botMessages.find(
@@ -52,20 +85,11 @@ function ChatBox() {
     return message || null; // Return null if the message is not found
   };
 
-  const [showInput, setShowInput] = useState(true);
-  const [seqNumber, setSeqNumber] = useState(2);
-  const botFirstMessage = getMessageBySequenceNumber(1);
-  const [showDocumentInput, setShowDocumentInput] = useState(false);
-  const [messages, setMessages] = useState([
-    { text: botFirstMessage.text, sender: botFirstMessage.sender },
-  ]);
-  const [inputMessage, setInputMessage] = useState("");
-  const [isUploaded, setIsUploaded] = useState(false);
-
   const handleSetSeqNumber = (value) => {
     const newValue = value; // Replace with the value you want
     setSeqNumber(newValue);
   };
+
   const afterUpload = () => {
     const botMessage = getMessageBySequenceNumber(5);
     const newSeqNumber = botMessage.sequenceNumber;
@@ -85,63 +109,150 @@ function ChatBox() {
     if (seqNumber < 6) {
       handleSetSeqNumber(seqNumber + 1);
     }
-    setShowDocumentInput(true);
+    //setShowDocumentInput(true);
   };
 
   const handleSendMessage = () => {
-    let botMessage = {};
-    if (inputMessage.trim() !== "") {
-      console.log(
-        "in handlesend: ",
-        seqNumber,
-        " ",
-        inputMessage,
-        " ",
-        isUploaded
-      );
-      if (seqNumber == 5) {
+    let botMessage = messages[messages.length - 1];
+    console.log(messages);
+    console.log("botMessage: ", botMessage)
+    console.log("sequence number:", botMessage.sequenceNumber);
+    if (inputMessage.trim() !== "" || botMessage.sequenceNumber>=3) {
+      // console.log(
+      //   "in handlesend: ",
+      //   seqNumber,
+      //   " ",
+      //   inputMessage,
+      //   " ",
+      //   isUploaded
+      // );
+      if (botMessage.sequenceNumber == 1) {
+        //after initial message
+        const nextMessage = getMessageBySequenceNumber(2);
+        setMessages([
+          ...messages,
+          { text: inputMessage, sender: "user", isDocumentInput: false },
+          { text: nextMessage.text, sender: "bot", sequenceNumber: nextMessage.sequenceNumber, isDocumentInput: false },
+        ]);
+      } else if (botMessage.sequenceNumber == 2) {
+        //after ready message
+
         if (inputMessage.toLowerCase().includes("no")) {
-          console.log("said no*****************");
-          handleSetSeqNumber(6);
-          botMessage = getMessageBySequenceNumber(6);
-        } else if (inputMessage.toLowerCase().includes("yes")) {
-          handleSetSeqNumber(3);
-          botMessage = getMessageBySequenceNumber(3);
-          console.log("displaying document input************5");
-          setShowDocumentInput(true);
-        }
-      } else if (seqNumber == 3) {
-        if (inputMessage.toLowerCase().includes("no")) {
-          console.log("said no*****************");
-          handleSetSeqNumber(seqNumber + 1); //4
-          botMessage = getMessageBySequenceNumber(4);
+          const nextMessage = getMessageBySequenceNumber(8);
+          setMessages([
+            ...messages,
+            { text: inputMessage, sender: "user", isDocumentInput: false },
+            { text: nextMessage.text, sender: "bot", sequenceNumber: nextMessage.sequenceNumber, isDocumentInput: false },
+          ]);
           setShowInput(false);
-          //seqNumber = 4;
         } else if (inputMessage.toLowerCase().includes("yes")) {
-          //setSeqNumber(seqNumber+1);
-          console.log("displaying document input************3");
-          //seqNumber = 3;
-          botMessage = getMessageBySequenceNumber(3);
-          setShowDocumentInput(true);
+          const nextMessage = getMessageBySequenceNumber(3);
+          setMessages([
+            ...messages,
+            { text: inputMessage, sender: "user", isDocumentInput: false },
+            { text: nextMessage.text, sender: "bot", sequenceNumber: nextMessage.sequenceNumber, isDocumentInput: "input", },
+          ]);
         }
-      } else {
-        botMessage = getMessageBySequenceNumber(seqNumber);
       }
-
-      console.log(botMessage.text, " ", botMessage.sequenceNumber);
-      setMessages([
-        ...messages,
-        { text: inputMessage, sender: "user", isDocumentInput: false },
-        {
-          text: botMessage.text,
-          sender: botMessage.sender,
-          isDocumentInput: botMessage.sequenceNumber == 3 ? "input" : null,
-        },
-      ]);
-
-      if (seqNumber < 6) {
-        handleSetSeqNumber(seqNumber + 1);
+      else if (botMessage.sequenceNumber == 3 || inputMessage===null){
+        const nextMessage = getMessageBySequenceNumber(botMessage.sequenceNumber+1);
+        console.log("nextMessage: ",nextMessage);
+        setMessages([
+          ...messages,
+          //{ text: inputMessage, sender: "user", isDocumentInput: false },
+          { text: nextMessage.text, sender: "bot", sequenceNumber: nextMessage.sequenceNumber, isDocumentInput: "input" },
+        ]);
       }
+      else if (botMessage.sequenceNumber == 4 || inputMessage===null){
+        console.log("in 4");
+        const nextMessage = getMessageBySequenceNumber(botMessage.sequenceNumber+1);
+        setMessages([
+          ...messages,
+          //{ text: inputMessage, sender: "user", isDocumentInput: false },
+          { text: nextMessage.text, sender: "bot", sequenceNumber: nextMessage.sequenceNumber, isDocumentInput: "input" },
+        ]);
+      }
+      else if (botMessage.sequenceNumber == 5 || inputMessage===null){
+        const nextMessage = getMessageBySequenceNumber(botMessage.sequenceNumber+1);
+        setMessages([
+          ...messages,
+          //{ text: inputMessage, sender: "user", isDocumentInput: false },
+          { text: nextMessage.text, sender: "bot", sequenceNumber: nextMessage.sequenceNumber, isDocumentInput: "input" },
+        ]);
+      }
+      else if (botMessage.sequenceNumber == 6 || inputMessage===null){
+        const nextMessage = getMessageBySequenceNumber(botMessage.sequenceNumber+1);
+        setMessages([
+          ...messages,
+          //{ text: inputMessage, sender: "user", isDocumentInput: false },
+          { text: nextMessage.text, sender: "bot", sequenceNumber: nextMessage.sequenceNumber, isDocumentInput: false },
+        ]);
+      }
+      else if (botMessage.sequenceNumber == 7){
+        if (inputMessage.toLowerCase().includes("no")) {
+          const nextMessage = getMessageBySequenceNumber(9);
+          setMessages([
+            ...messages,
+            { text: inputMessage, sender: "user", isDocumentInput: false },
+            { text: nextMessage.text, sender: "bot", sequenceNumber: nextMessage.sequenceNumber, isDocumentInput: false },
+          ]);
+          setShowInput(false);
+        } else{
+          const nextMessage = getMessageBySequenceNumber(7);
+          setMessages([
+            ...messages,
+            { text: inputMessage, sender: "user", isDocumentInput: false },
+            { text: nextMessage.text, sender: "bot", sequenceNumber: nextMessage.sequenceNumber, isDocumentInput: "input" },
+          ]);
+        }
+        
+      }
+      else{
+        console.log("im here haha")
+      }
+      // if (seqNumber == 5) {
+      //   if (inputMessage.toLowerCase().includes("no")) {
+      //     console.log("said no*****************");
+      //     handleSetSeqNumber(6);
+      //     botMessage = getMessageBySequenceNumber(6);
+      //   } else if (inputMessage.toLowerCase().includes("yes")) {
+      //     handleSetSeqNumber(3);
+      //     botMessage = getMessageBySequenceNumber(3);
+      //     console.log("displaying document input************5");
+      //     setShowDocumentInput(true);
+      //   }
+      // } else if (seqNumber == 3) {
+      //   if (inputMessage.toLowerCase().includes("no")) {
+      //     console.log("said no*****************");
+      //     handleSetSeqNumber(seqNumber + 1); //4
+      //     botMessage = getMessageBySequenceNumber(4);
+      //     setShowInput(false);
+      //     //seqNumber = 4;
+      //   } else if (inputMessage.toLowerCase().includes("yes")) {
+      //     //setSeqNumber(seqNumber+1);
+      //     console.log("displaying document input************3");
+      //     //seqNumber = 3;
+      //     botMessage = getMessageBySequenceNumber(3);
+      //     setShowDocumentInput(true);
+      //   }
+      // } else {
+      //   botMessage = getMessageBySequenceNumber(seqNumber);
+      // }
+
+      // console.log(botMessage.text, " ", botMessage.sequenceNumber);
+      // setMessages([
+      //   ...messages,
+      //   { text: inputMessage, sender: "user", isDocumentInput: false },
+      //   {
+      //     text: botMessage.text,
+      //     sender: botMessage.sender,
+      //     isDocumentInput: botMessage.sequenceNumber == 3 ? "input" : null,
+      //   },
+      // ]);
+
+      // if (seqNumber < 6) {
+      //   handleSetSeqNumber(seqNumber + 1);
+      // }
 
       setInputMessage("");
     }
@@ -149,12 +260,15 @@ function ChatBox() {
 
   return (
     <div
-      className="App"
+      //className="App"
       style={{
         backgroundImage: `url(${ChatBg})`,
         backgroundSize: "cover",
         backgroundRepeat: "repeat",
-        height: "100%",
+       // overflow: "hidden",
+        //minHeight: "100vh",
+        position: "relative",
+        height:"100%",
         display: "flex",
         flexDirection: "column",
       }}
@@ -162,6 +276,13 @@ function ChatBox() {
       <Header />
       <div className="chatbox">
         <div className="chat-container">
+          <div className="add-scrollbar"
+          style={{
+            width: "65%",
+            overflowY: "auto",
+            height: "600px",
+            display: 'inline-grid'
+          }}>
           <div className="chat-messages">
             {messages.map((message, index) => (
               <div key={index} className={`message`}>
@@ -170,7 +291,7 @@ function ChatBox() {
                 <Message
                   user={message.sender}
                   content={message.text}
-                  isUploaded={afterUpload}
+                  isUploaded={handleSendMessage}
                   isDocumentInput={message.isDocumentInput}
                 />
               </div>
@@ -179,7 +300,7 @@ function ChatBox() {
               <DocumentInputMessage isUploaded={setIsUploaded} />
             )} */}
           </div>
-
+          </div>
           {showInput && (
             <div className="chat-input">
               <TextField
@@ -192,7 +313,7 @@ function ChatBox() {
                   scrollbarWidth: "thin",
                   scrollbarColor: "#4caf50 #e0e0e0",
                   width: "100%",
-                  zIndex: "0",
+                  zIndex: "0"
                 }}
                 multiline
                 maxRows={5}

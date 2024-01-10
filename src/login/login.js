@@ -104,6 +104,10 @@ function Login(props) {
     username: "verifier",
     password: "verifier123",
   });
+  const [admin, setAdmin] = useState({
+    username: "admin",
+    password: "admin123",
+  });
 
   const [account, setAccount] = useState({ username: "", password: "" });
 
@@ -126,6 +130,12 @@ function Login(props) {
     }
     return false;
   };
+  const isAdmin = (username, password) => {
+    if (admin.username === username && admin.password === password) {
+      return true;
+    }
+    return false;
+  };
 
   const handleLogin = (event) => {
     event.preventDefault();
@@ -133,6 +143,11 @@ function Login(props) {
     const clientFiles = [
       "https://firebasestorage.googleapis.com/v0/b/document-verification-ap-88a6a.appspot.com/o/bot%2F1704547880926_test_document?alt=media&token=14f1c920-5037-4e98-bf13-bbb24a33a34f",
       "https://firebasestorage.googleapis.com/v0/b/document-verification-ap-88a6a.appspot.com/o/bot%2F1704547934839_test_document?alt=media&token=5620fe28-73da-48c4-a190-5b23830b9b14",
+      "https://firebasestorage.googleapis.com/v0/b/document-verification-ap-88a6a.appspot.com/o/bot%2F1704547959482_test_document?alt=media&token=fa02014d-b579-4028-b434-a56c4add2cdc",
+      "https://firebasestorage.googleapis.com/v0/b/document-verification-ap-88a6a.appspot.com/o/bot%2F1704547959482_test_document?alt=media&token=fa02014d-b579-4028-b434-a56c4add2cdc",
+      "https://firebasestorage.googleapis.com/v0/b/document-verification-ap-88a6a.appspot.com/o/bot%2F1704547959482_test_document?alt=media&token=fa02014d-b579-4028-b434-a56c4add2cdc",
+      "https://firebasestorage.googleapis.com/v0/b/document-verification-ap-88a6a.appspot.com/o/bot%2F1704547959482_test_document?alt=media&token=fa02014d-b579-4028-b434-a56c4add2cdc",
+      "https://firebasestorage.googleapis.com/v0/b/document-verification-ap-88a6a.appspot.com/o/bot%2F1704547959482_test_document?alt=media&token=fa02014d-b579-4028-b434-a56c4add2cdc",
       "https://firebasestorage.googleapis.com/v0/b/document-verification-ap-88a6a.appspot.com/o/bot%2F1704547959482_test_document?alt=media&token=fa02014d-b579-4028-b434-a56c4add2cdc",
     ];
 
@@ -156,6 +171,9 @@ function Login(props) {
       } else {
         navigate("/dashboard");
       }
+    } else if (isAdmin(account.username, account.password)) {
+      localStorage.setItem("role", "admin");
+      navigate("/dashboard-verifier");
     } else {
       console.log("Nope");
       //TODO: show a toast or something for invalid credentials
@@ -190,7 +208,6 @@ function Login(props) {
         square
       >
         <div className={classes.paper}>
-
           {/* <img src={SureSourceLogo}/> */}
 
           <Typography component="h1" variant="h5">

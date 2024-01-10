@@ -1,27 +1,27 @@
 import React, { useEffect } from "react";
-import data from "./dataClient";
+import data from "./data";
 import "./table.css";
 import CustomBadge from "../badge/CustomBadge";
 import Header from "../header/header";
 import { useNavigate } from "react-router-dom";
 
-export default function ApplicationTable() {
+export default function SuperAdminTable() {
   const navigate = useNavigate();
 
-  const handleNewApplicationClick = () => {
+  const handleReferenceIdClick = (referenceId) => {
     // Add your logic here for handling the click event
-    //console.log(`Reference ID clicked: ${referenceId}`);
-    navigate("/chatbox");
+    console.log(`Reference ID clicked: ${referenceId}`);
+    navigate("/dashboard");
   };
 
   useEffect(() => {
     const role = localStorage.getItem("role");
-    if (role === null || role !== "client") {
-      navigate("/chatbox-verifier");
+    if (role === null || role === "client") {
+      navigate("/chatbox");
     }
   }, [navigate]);
   const role = localStorage.getItem("role");
-  if (role !== null && role !== "verifier") {
+  if (role !== null && role !== "client") {
     return (
       <>
         <Header />
@@ -32,14 +32,8 @@ export default function ApplicationTable() {
               paddingTop: "20px",
             }}
           >
-            <h3 className="heading-3">Medical practitioner PSV Applications</h3>
+            <h3 className="heading-3">Verifiers Record</h3>
             <div className="buttons-style">
-              <button
-                className="custom-button-2"
-                onClick={handleNewApplicationClick}
-              >
-                + New Application
-              </button>
               <button className="custom-button">
                 All <span className="arrow">&#x25BC;</span>
               </button>
@@ -55,38 +49,32 @@ export default function ApplicationTable() {
                 <th>REFERENCE ID</th>
                 <th>NAME</th>
                 <th>EMAIL</th>
-                <th>PASSPORT ID</th>
-                <th>CATEGORY</th>
-                <th>TYPE</th>
-                <th>APPLIED ON</th>
-                <th>VERIFIER</th>
-                <th>DOC VERIFIED</th>
+                <th>ASSIGNED APPLICATIONS</th>
+                <th>PROCESSED APPLICATIONS</th>
                 <th>STATUS</th>
               </tr>
             </thead>
             <tbody>
               {data.map((item) => (
                 <tr key={item.id}>
-                  <td className="table-id">{item.id}</td>
+                  <td className="table-id">
+                    {item.status === "In Progress" ? (
+                      <a
+                        href="#"
+                        onClick={() => handleReferenceIdClick(item.id)}
+                      >
+                        {item.id}
+                      </a>
+                    ) : (
+                      item.id
+                    )}
+                  </td>
                   <td>{item.name}</td>
                   <td>{item.email}</td>
-                  <td>{item.passportId}</td>
-                  <td>{item.category}</td>
-                  <td>{item.type}</td>
-                  <td>
-                    {item.appliedOn
-                      .toLocaleDateString("en-US", {
-                        day: "2-digit",
-                        month: "2-digit",
-                        year: "numeric",
-                      })
-                      .replace(/\//g, "-")}
-                  </td>
-                  <td>{item.verifier}</td>
-                  <td>{item.docVerified}</td>
-                  <td>
-                    <CustomBadge status={item.status} />
-                  </td>
+                  <td>{"10"}</td>
+                  <td>{"5"}</td>
+                  <td><CustomBadge status="Current" /></td>
+                  
                 </tr>
               ))}
             </tbody>

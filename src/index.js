@@ -13,6 +13,8 @@ import Dashboard from "./dashboard/Dashboard";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import OnBoarding from "./onboarding/OnBoarding";
+import DashboardVerifier from "./dashboard/DashboardVerifier";
+import SuperAdminTable from "./table/SuperAdminTable";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -40,6 +42,8 @@ root.render(
           path="/application-table-client"
           element={<ApplicationTableClient />}
         />
+        <Route path="/admin-table" element={<SuperAdminTable />} />
+        <Route path="/dashboard-verifier" element={<DashboardVerifier />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/onboarding" element={<OnBoarding />} />
       </Routes>

@@ -5,8 +5,9 @@ html, body{
   height: 100%;
 }
 .chatbox{
-  margin-top: 100px;
+  /* margin-top: 100px; */
   padding: 50px;
+  /* overflow: hidden; */
 }
   .chat-container {
     width:100%;
@@ -18,10 +19,12 @@ html, body{
   }
   
   .chat-messages {
-    width: 65%;
-    overflow-y: auto;
-    
-    
+
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding-right: 20px;
     /* border: 1px solid #ccc; */
   }
   
@@ -65,6 +68,7 @@ html, body{
     border: 1px solid #b6b9bf;
     border-radius: 7px;
     padding: 10px;
+    /* position:fixed; */
     /* position: relative; */
 
   }
@@ -82,8 +86,40 @@ html, body{
     scrollbar-color: #4caf50 #e0e0e0; 
   } */
   
+
+  .add-scrollbar{
+    width: 65%;
+    overflow-y: auto;;
+    height: 600px;
+    display: inline-grid;
+
+  }
+  .add-scrollbar::-webkit-scrollbar {
+    width: 6px; /* Width of the scrollbar */
+    cursor: pointer;
+    /* position: absolute; */
+    z-index: 0;
+  }
+  
+  .add-scrollbar::-webkit-scrollbar-track {
+    /* background: #e6e8eb;  */
+    background: transparent;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
+  .add-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #74777a; /* Color of the thumb */
+    border-radius: 6px; /* Radius of the thumb */
+    /* border: 3px solid #e0e0e0; Border around the thumb */
+    border: 3px solid transparent; /* Border around the thumb */
+    
+    cursor: pointer;
+  }
+
+
   textarea::-webkit-scrollbar {
-    width: 12px; /* Width of the scrollbar */
+    width: 6px; /* Width of the scrollbar */
     cursor: pointer;
     /* position: absolute; */
     z-index: 0;
