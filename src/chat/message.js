@@ -76,18 +76,24 @@ function Message({ user, content, isDocumentInput, isUploaded, outputFile }) {
     fileInputRef.current.click();
   };
 
-  const handleVerifyClick = () =>{
+  const handleVerifyClick = () => {
     setVerified(true);
-  }
+  };
 
   return (
     <Box className={`message-box ${sender}`}>
       {showDocumentInput ? (
         // Render document input part
         <Box>
-          <Typography>
-            Please upload {message} document(s) for verification.
-          </Typography>
+          {message !== "..." ? (
+            <Typography>
+              Please upload {message} document(s) for verification.
+            </Typography>
+          ):(
+            <Typography>
+              {message}
+            </Typography>
+          )}
 
           {uploadedFile ? (
             <CloudDoneIcon variant="filled" />
@@ -130,9 +136,10 @@ function Message({ user, content, isDocumentInput, isUploaded, outputFile }) {
               ? ("Click the link to view the file:",
                 (
                   <div
-                  style={{
-                    display: "flex",
-                  }}>
+                    style={{
+                      display: "flex",
+                    }}
+                  >
                     <a
                       href={outputFile}
                       target="_blank"
@@ -144,7 +151,7 @@ function Message({ user, content, isDocumentInput, isUploaded, outputFile }) {
                       variant="contained"
                       color="primary"
                       style={{
-                        height: "50%"
+                        height: "50%",
                       }}
                       onClick={handleVerifyClick}
                       //startIcon={<UploadIcon />}

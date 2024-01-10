@@ -6,6 +6,7 @@ import SendIcon from "@mui/icons-material/Send";
 import Header from "../header/header.js";
 import DocumentInputMessage from "./documentInputMessage.js";
 import ChatBg from "./chat-bg.jpg";
+import { useNavigate } from "react-router-dom";
 function ChatBoxVerifier() {
   const botMessages = [
     {
@@ -40,7 +41,7 @@ function ChatBoxVerifier() {
     {
       //if user says no to "more documents"
       sender: "bot",
-      text: "Thank you for submitting your documents! I will email you once your documents have been verified by our certified verifier",
+      text: "Thanks. For help, go to the Let's Chat tab.",
       sequenceNumber: 6,
     },
     {
@@ -51,6 +52,7 @@ function ChatBoxVerifier() {
     },
   ];
 
+  const navigate = useNavigate();
   const [clientFiles, setClientFiles] = useState();
   const [showInput, setShowInput] = useState(true);
   const [seqNumber, setSeqNumber] = useState(2);
@@ -59,6 +61,10 @@ function ChatBoxVerifier() {
 
   const [inputMessage, setInputMessage] = useState("");
   const [isUploaded, setIsUploaded] = useState(false);
+
+  const [isTyping, setIsTyping] = useState(false);
+  const [lastBotMessageIndex, setLastBotMessageIndex] = useState(null);
+
 
   useEffect(() => {
     const storedClientFiles = localStorage.getItem("clientFiles");
@@ -85,18 +91,27 @@ function ChatBoxVerifier() {
   const [messages, setMessages] = useState([
     { text: botFirstMessage.text, sender: botFirstMessage.sender },
   ]);
+  useEffect(() => {
+    const lastIndex = messages.reduceRight((index, message, currentIndex) => {
+      if (message.sender === "bot" && index === null) {
+        return currentIndex;
+      }
+      return index;
+    }, null);
 
-  //   useEffect(() => {
-  //     // Check if seqNumber is 3
-  //     if (seqNumber === 3 && clientFiles.length > 0) {
-  //       // Get the next file from clientFiles and set it as the currentFile
-  //       const nextFile = clientFiles.shift(); // Remove the first element from the array
-  //       setCurrentFile(nextFile);
+    setLastBotMessageIndex(lastIndex);
 
-  //       // Update the clientFiles in local storage without the processed file
-  //       localStorage.setItem("clientFiles", JSON.stringify(clientFiles));
-  //     }
-  //   }, [seqNumber, clientFiles]);
+    if (lastIndex !== null) {
+      setIsTyping(true);
+      const typingTimeout = setTimeout(() => {
+        setIsTyping(false);
+      }, 2000);
+
+      // Clean up the timeout on component unmount or when the messages change
+      return () => clearTimeout(typingTimeout);
+    }
+  }, [messages]);
+
 
   const handleSetSeqNumber = (value) => {
     const newValue = value; // Replace with the value you want
@@ -180,7 +195,7 @@ function ChatBoxVerifier() {
             },
             //{ text: botMessage.text, sender: "bot", isDocumentInput: null },
           ]);
-        } else {
+        } else if (inputMessage.toLowerCase().includes("yes")){
           // Display client files as separate messages
           const clientFilesMessages = clientFiles.map((file, index) => ({
             text: getDocumentType(index),
@@ -189,19 +204,20 @@ function ChatBoxVerifier() {
             outputFile: file,
           }));
 
-          botMessage = getMessageBySequenceNumber(4);
+          botMessage = getMessageBySequenceNumber(6);
           setMessages((prevMessages) => [
             ...prevMessages,
             { text: inputMessage, sender: "user", isDocumentInput: null },
             ...clientFilesMessages,
-            //{ text: botMessage.text, sender: "bot", isDocumentInput: null },
+            { text: botMessage.text, sender: "bot", isDocumentInput: null },
           ]);
 
+          setShowInput(false);
           // Update the clientFiles in local storage without the processed files
           //localStorage.setItem("clientFiles", JSON.stringify([]));
           handleSetSeqNumber(4);
         }
-      } else {
+      }else {
         botMessage = getMessageBySequenceNumber(seqNumber);
         setMessages((prevMessages) => [
           ...prevMessages,
@@ -221,6 +237,9 @@ function ChatBoxVerifier() {
       setInputMessage("");
     }
   };
+  const handleEmailClick = () =>{
+    navigate("/email")
+  }
   return (
     <div
       //className="App"
@@ -237,9 +256,13 @@ function ChatBoxVerifier() {
       }}
     >
       <Header />
+      <Button className="mail-button"
+      onClick={handleEmailClick}
+      >Send verification mail</Button>
       <div className="chatbox">
         <div className="chat-container">
-          <div className="add-scrollbar"
+          <div
+            className="add-scrollbar"
             style={{
               width: "65%",
               overflowY: "auto",
@@ -250,20 +273,34 @@ function ChatBoxVerifier() {
             <div className="chat-messages">
               {messages.map((message, index) => (
                 <div key={index} className={`message`}>
-                  {/* {console.log(message.text)}
-                {console.log(seqNumber)} */}
-                  <Message
-                    user={message.sender}
-                    content={message.text}
-                    isUploaded={handleSendMessage}
-                    isDocumentInput={message.isDocumentInput}
-                    outputFile={message.outputFile}
-                  />
+                  {message.sender === "user" ? (
+                    <Message
+                      user={message.sender}
+                      content={message.text}
+                      isUploaded={handleSendMessage}
+                      isDocumentInput={message.isDocumentInput}
+                    />
+                  ) : (
+                    <>
+                      {lastBotMessageIndex === index && isTyping ? (
+                        <Message
+                        user="bot"
+                        content="..."
+                        //isUploaded={handleSendMessage}
+                        //isDocumentInput={message.isDocumentInput}
+                      />
+                      ) : <Message
+                      user={message.sender}
+                      content={message.text}
+                      isUploaded={handleSendMessage}
+                      isDocumentInput={message.isDocumentInput}
+                      outputFile={message.outputFile}
+                    />}
+                      
+                    </>
+                  )}
                 </div>
               ))}
-              {/* {showDocumentInput && (
-              <DocumentInputMessage isUploaded={setIsUploaded} />
-            )} */}
             </div>
           </div>
           {showInput && (

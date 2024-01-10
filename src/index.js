@@ -15,6 +15,7 @@ import "react-toastify/dist/ReactToastify.css";
 import OnBoarding from "./onboarding/OnBoarding";
 import DashboardVerifier from "./dashboard/DashboardVerifier";
 import SuperAdminTable from "./table/SuperAdminTable";
+import Email from "./email/email";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -46,6 +47,8 @@ root.render(
         <Route path="/dashboard-verifier" element={<DashboardVerifier />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/onboarding" element={<OnBoarding />} />
+        <Route path="/email" element={<Email />} />
+
       </Routes>
     </Router>
   </React.StrictMode>
