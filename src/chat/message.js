@@ -8,7 +8,7 @@ import "./chatbox.css";
 import CloudDoneIcon from "@mui/icons-material/CloudDone";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
-function Message({ user, content, isDocumentInput, isUploaded, outputFile }) {
+function Message({ user, content, isDocumentInput, isUploaded, outputFile, isLoading }) {
   const message = content;
   const sender = user;
   const [showDocumentInput, setShowDocumentInput] = useState(false);
@@ -80,6 +80,7 @@ function Message({ user, content, isDocumentInput, isUploaded, outputFile }) {
     setVerified(true);
   };
 
+  const [isMessageLoading, setIsMessageLoading] = useState(isLoading ? true:false);
   return (
     <Box className={`message-box ${sender}`}>
       {showDocumentInput ? (
@@ -95,9 +96,11 @@ function Message({ user, content, isDocumentInput, isUploaded, outputFile }) {
             </Typography>
           )}
 
-          {uploadedFile ? (
+          {uploadedFile && (
             <CloudDoneIcon variant="filled" />
-          ) : (
+          ) } 
+          {!uploadedFile && message!=="..."&&(
+            
             <Box
               style={{
                 marginTop: "20px",
