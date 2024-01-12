@@ -81,7 +81,7 @@ function ChatBox() {
       sequenceNumber: botFirstMessage.sequenceNumber,
     },
   ]);
-  const [inputMessage, setInputMessage] = useState("");
+  const [inputMessage, setInputMessage] = useState(null);
   const [isUploaded, setIsUploaded] = useState(false);
 
   useEffect(() => {
@@ -144,6 +144,7 @@ function ChatBox() {
     console.log(messages);
     console.log("botMessage: ", botMessage);
     console.log("sequence number:", botMessage.sequenceNumber);
+    console.log("input message:", inputMessage)
     if (inputMessage.trim() !== "" || botMessage.sequenceNumber >= 3) {
       // console.log(
       //   "in handlesend: ",
@@ -195,7 +196,7 @@ function ChatBox() {
             },
           ]);
         }
-      } else if (botMessage.sequenceNumber == 3 || inputMessage === null) {
+      } else if (botMessage.sequenceNumber == 3 || inputMessage == "") {
         const nextMessage = getMessageBySequenceNumber(
           botMessage.sequenceNumber + 1
         );
@@ -210,7 +211,7 @@ function ChatBox() {
             isDocumentInput: "input",
           },
         ]);
-      } else if (botMessage.sequenceNumber == 4 && inputMessage === null) {
+      } else if (botMessage.sequenceNumber == 4 || inputMessage == "") {
         console.log("in 4");
         const nextMessage = getMessageBySequenceNumber(
           botMessage.sequenceNumber + 1
@@ -225,7 +226,7 @@ function ChatBox() {
             isDocumentInput: "input",
           },
         ]);
-      } else if (botMessage.sequenceNumber == 5 && inputMessage === null) {
+      } else if (botMessage.sequenceNumber == 5 || inputMessage == "") {
         const nextMessage = getMessageBySequenceNumber(
           botMessage.sequenceNumber + 1
         );
@@ -239,7 +240,7 @@ function ChatBox() {
             isDocumentInput: "input",
           },
         ]);
-      } else if (botMessage.sequenceNumber == 6 && inputMessage === null) {
+      } else if (botMessage.sequenceNumber == 6 || inputMessage == "") {
         const nextMessage = getMessageBySequenceNumber(
           botMessage.sequenceNumber + 1
         );

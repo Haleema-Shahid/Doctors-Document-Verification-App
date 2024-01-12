@@ -54,6 +54,10 @@ function Header() {
     }
   };
 
+  const handleOnboardingClick = () => {
+    navigate("/onboarding")
+  };
+
   const handleDashboardClick = () => {
     const role = localStorage.getItem("role");
     if (role === "admin") {
@@ -291,6 +295,37 @@ function Header() {
               }}
             >
               Let's Talk
+            </Button>
+            <Button
+              //key={page}
+
+              style={{
+                padding: "22px",
+                height: "100%",
+                color: "#1976D2",
+                display: "block",
+                fontWeight: "bold",
+                //borderLeft: "1px solid white",
+                //borderRight: "1px solid white",
+                borderRadius: "0px",
+                color: "white",
+                //backgroundColor: "white", // Set initial background color
+                "&:hover": {
+                  backgroundColor: "white", // Change background color on hover
+                  color: "#1976D2", // Change text color on hover
+                },
+              }}
+              onMouseOver={(e) => {
+                e.target.style.backgroundColor = "white"; // Change background color on hover
+                e.target.style.color = "#1976D2"; // Change text color on hover
+              }}
+              onMouseOut={(e) => {
+                e.target.style.backgroundColor = "transparent"; // Reset background color on hover out
+                e.target.style.color = "white"; // Reset text color on hover out
+              }}
+              onClick={handleOnboardingClick}
+            >
+              OnBoarding
             </Button>
           </Box>
 

@@ -308,7 +308,7 @@ function DashboardVerifier(props) {
                 color="#1d8cf899"
                 chartData={chartExample2.data}
                 chartOptions={chartExample2.options}
-                number={620}
+                number={10550}
                 text="Applications Recieved"
               />
             </Col>

@@ -106,9 +106,9 @@ export default function OnBoarding() {
       setRun(false);
       const role = localStorage.getItem("role");
       if (role === "client") {
-        navigate("/chatbox");
-      } else {
-        navigate("/dashboard");
+        navigate("/application-table-client");
+      } else if (role === "verifier"){
+        navigate("/dashboard-verifier");
       }
     }
   };
@@ -117,9 +117,9 @@ export default function OnBoarding() {
     localStorage.setItem("firstTime", false);
     const role = localStorage.getItem("role");
     if (role === "client") {
-      navigate("/chatbox");
-    } else {
-      navigate("/dashboard");
+      navigate("/application-table-client");
+    } else if (role === "verifier"){
+      navigate("/dashboard-verifier");
     }
   };
 
