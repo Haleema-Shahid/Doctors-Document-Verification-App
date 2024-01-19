@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 import Header from "../header/header";
-import { Container, Typography, Paper, Button, Box, TextField } from "@mui/material";
+import {
+  Container,
+  Typography,
+  Paper,
+  Button,
+  Box,
+  TextField,
+} from "@mui/material";
 import Doctors from "./doctors.jpg";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -17,7 +24,8 @@ const Contact = () => {
 
   const infoContainerStyle = {
     borderRadius: "8px",
-    //marginTop: "10px",
+    marginTop: "10px",
+    marginBottom: "30px",
     width: "50%",
     textAlign: "center",
   };
@@ -34,7 +42,9 @@ const Contact = () => {
       return;
     }
 
-    const confirmed = window.confirm("Are you sure you want to send the message?");
+    const confirmed = window.confirm(
+      "Are you sure you want to send the message?"
+    );
     if (confirmed) {
       // Perform the action of sending the message (can be an API call, etc.)
 
@@ -50,15 +60,18 @@ const Contact = () => {
   };
 
   return (
-    <div style={{
-        backgroundColor:"#bbdef9",
+    <div
+      style={{
+        backgroundColor: "#bbdef9",
         //height:"100%"
         //height:"100vh"
-    }}>
+      }}
+    >
       <Header />
       <Box
         style={{
           marginTop: "5%",
+          marginBottom: "5%",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
@@ -67,11 +80,7 @@ const Contact = () => {
       >
         <div style={{ width: "50%" }}>
           {/* Image Section */}
-          <img
-            src={Doctors}
-            alt="Contact"
-            style={imageStyle}
-          />
+          <img src={Doctors} alt="Contact" style={imageStyle} />
         </div>
 
         {/* Information Section */}
