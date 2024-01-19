@@ -105,7 +105,7 @@ function Header() {
               fontFamily: "Poppins",
             }}
           >
-            eDoc Veriff
+            E-Veracity
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
