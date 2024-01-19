@@ -108,7 +108,7 @@ export default function OnBoarding() {
       if (role === "client") {
         navigate("/application-table-client");
       } else if (role === "verifier"){
-        navigate("/dashboard-verifier");
+        navigate("/dashboard");
       }
     }
   };
@@ -119,7 +119,7 @@ export default function OnBoarding() {
     if (role === "client") {
       navigate("/application-table-client");
     } else if (role === "verifier"){
-      navigate("/dashboard-verifier");
+      navigate("/dashboard");
     }
   };
 

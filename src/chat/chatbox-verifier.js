@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "./chatbox.css";
 import Message from "./message";
 import { Box, Typography, TextField, Button } from "@mui/material";
@@ -91,6 +91,20 @@ function ChatBoxVerifier() {
   const [messages, setMessages] = useState([
     { text: botFirstMessage.text, sender: botFirstMessage.sender },
   ]);
+
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    // Scroll to the last message after a short delay
+    const scrollTimeout = setTimeout(() => {
+      if (containerRef.current && messages.length > 0) {
+        const lastMessage = containerRef.current.lastChild;
+        lastMessage.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
+      }
+    }, 100);
+
+    return () => clearTimeout(scrollTimeout); // Cleanup the timeout on component unmount
+  }, [messages]);
   useEffect(() => {
     const lastIndex = messages.reduceRight((index, message, currentIndex) => {
       if (message.sender === "bot" && index === null) {
@@ -141,16 +155,16 @@ function ChatBoxVerifier() {
 
   const getDocumentType = (index) => {
     if (index === 0) {
-      return "Primary Education document";
+      return "Bachelors document";
     }
     if (index === 1) {
-      return "Secondary Education document";
+      return "Masters document";
     }
     if (index === 2) {
-      return "Bachelor's or equivalent document";
+      return "Associate document";
     }
     if (index === 3) {
-      return "Specialization document";
+      return "Diploma document";
     }
     return "other document";
   };
@@ -269,6 +283,7 @@ function ChatBoxVerifier() {
               height: "600px",
               display: "inline-grid",
             }}
+            ref={containerRef}
           >
             <div className="chat-messages">
               {messages.map((message, index) => (

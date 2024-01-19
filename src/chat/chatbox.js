@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./chatbox.css";
 import Message from "./message";
 import { Box, Typography, TextField } from "@mui/material";
@@ -15,24 +15,44 @@ function ChatBox() {
     },
     {
       sender: "bot",
+      text: "Which category would you like to apply for?\nPhysician\nNurse\nPharmacist\nAllied Health",
+      sequenceNumber: 1.25,
+    },
+    {
+      sender: "bot",
+      text: "Which category do you fall in?\nSimple Nurse\nNurse educator\nNurse specialist\ntrainee nurse without experienc",
+      sequenceNumber: 1.3,
+    },
+    {
+      sender: "bot",
+      text: "Are you a gp or specialist?",
+      sequenceNumber: 1.5,
+    },
+    {
+      sender: "bot",
+      text: "what is your specialization?",
+      sequenceNumber: 1.75,
+    },
+    {
+      sender: "bot",
       text: "Alright! Let's get started. Do you have your documents ready?",
       sequenceNumber: 2,
     },
     {
       //if user says yes to "documents ready?"
       sender: "bot",
-      text: "Primary Education",
+      text: "Bachelors",
       sequenceNumber: 3,
     },
     {
       //if user says no to "documents ready?"
       sender: "bot",
-      text: "Secondary Education",
+      text: "Masters",
       sequenceNumber: 4,
     },
     {
       sender: "bot",
-      text: "Bachelor's or equivalent",
+      text: "Associate",
       sequenceNumber: 5,
     },
     //if user says yes to "more documents" then display msg number 4
@@ -40,7 +60,7 @@ function ChatBox() {
     {
       //if user says no to "more documents"
       sender: "bot",
-      text: "Specialization",
+      text: "Diploma",
       sequenceNumber: 6,
     },
     {
@@ -83,6 +103,19 @@ function ChatBox() {
   ]);
   const [inputMessage, setInputMessage] = useState(null);
   const [isUploaded, setIsUploaded] = useState(false);
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    // Scroll to the last message after a short delay
+    const scrollTimeout = setTimeout(() => {
+      if (containerRef.current && messages.length > 0) {
+        const lastMessage = containerRef.current.lastChild;
+        lastMessage.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
+      }
+    }, 100);
+
+    return () => clearTimeout(scrollTimeout); // Cleanup the timeout on component unmount
+  }, [messages]);
 
   useEffect(() => {
     const lastIndex = messages.reduceRight((index, message, currentIndex) => {
@@ -144,7 +177,7 @@ function ChatBox() {
     console.log(messages);
     console.log("botMessage: ", botMessage);
     console.log("sequence number:", botMessage.sequenceNumber);
-    console.log("input message:", inputMessage)
+    console.log("input message:", inputMessage);
     if (inputMessage.trim() !== "" || botMessage.sequenceNumber >= 3) {
       // console.log(
       //   "in handlesend: ",
@@ -156,6 +189,72 @@ function ChatBox() {
       // );
       if (botMessage.sequenceNumber == 1) {
         //after initial message
+        const nextMessage = getMessageBySequenceNumber(1.25);
+        setMessages([
+          ...messages,
+          { text: inputMessage, sender: "user", isDocumentInput: false },
+          {
+            text: nextMessage.text,
+            sender: "bot",
+            sequenceNumber: nextMessage.sequenceNumber,
+            isDocumentInput: false,
+          },
+        ]);
+      } else if (botMessage.sequenceNumber == 1.25) {
+        if (inputMessage.toLowerCase().includes("physician")) {
+          const nextMessage = getMessageBySequenceNumber(1.5);
+          setMessages([
+            ...messages,
+            { text: inputMessage, sender: "user", isDocumentInput: false },
+            {
+              text: nextMessage.text,
+              sender: "bot",
+              sequenceNumber: nextMessage.sequenceNumber,
+              isDocumentInput: false,
+            },
+          ]);
+        } else if (inputMessage.toLowerCase().includes("nurse")) {
+          const nextMessage = getMessageBySequenceNumber(1.3);
+          setMessages([
+            ...messages,
+            { text: inputMessage, sender: "user", isDocumentInput: false },
+            {
+              text: nextMessage.text,
+              sender: "bot",
+              sequenceNumber: nextMessage.sequenceNumber,
+              isDocumentInput: false,
+            },
+          ]);
+        } else if (inputMessage.toLowerCase().includes("pharmacist")) {
+        } else if (inputMessage.toLowerCase().includes("allied health")) {
+        }
+      } else if (botMessage.sequenceNumber == 1.5) {
+        if (inputMessage.toLowerCase().includes("gp")) {
+          const nextMessage = getMessageBySequenceNumber(2);
+          setMessages([
+            ...messages,
+            { text: inputMessage, sender: "user", isDocumentInput: false },
+            {
+              text: nextMessage.text,
+              sender: "bot",
+              sequenceNumber: nextMessage.sequenceNumber,
+              isDocumentInput: false,
+            },
+          ]);
+        } else if (inputMessage.toLowerCase().includes("specialist")) {
+          const nextMessage = getMessageBySequenceNumber(1.75);
+          setMessages([
+            ...messages,
+            { text: inputMessage, sender: "user", isDocumentInput: false },
+            {
+              text: nextMessage.text,
+              sender: "bot",
+              sequenceNumber: nextMessage.sequenceNumber,
+              isDocumentInput: false,
+            },
+          ]);
+        }
+      }else if (botMessage.sequenceNumber == 1.75 || botMessage.sequenceNumber == 1.3 ){
         const nextMessage = getMessageBySequenceNumber(2);
         setMessages([
           ...messages,
@@ -167,7 +266,8 @@ function ChatBox() {
             isDocumentInput: false,
           },
         ]);
-      } else if (botMessage.sequenceNumber == 2) {
+      }
+       else if (botMessage.sequenceNumber == 2) {
         //after ready message
 
         if (inputMessage.toLowerCase().includes("no")) {
@@ -196,7 +296,13 @@ function ChatBox() {
             },
           ]);
         }
-      } else if (botMessage.sequenceNumber == 3 || inputMessage == "") {
+      } else if (
+        botMessage.sequenceNumber == 3 ||
+        botMessage.sequenceNumber == 4 ||
+        botMessage.sequenceNumber == 5 ||
+        botMessage.sequenceNumber == 6 ||
+        inputMessage == ""
+      ) {
         const nextMessage = getMessageBySequenceNumber(
           botMessage.sequenceNumber + 1
         );
@@ -209,49 +315,6 @@ function ChatBox() {
             sender: "bot",
             sequenceNumber: nextMessage.sequenceNumber,
             isDocumentInput: "input",
-          },
-        ]);
-      } else if (botMessage.sequenceNumber == 4 || inputMessage == "") {
-        console.log("in 4");
-        const nextMessage = getMessageBySequenceNumber(
-          botMessage.sequenceNumber + 1
-        );
-        setMessages([
-          ...messages,
-          //{ text: inputMessage, sender: "user", isDocumentInput: false },
-          {
-            text: nextMessage.text,
-            sender: "bot",
-            sequenceNumber: nextMessage.sequenceNumber,
-            isDocumentInput: "input",
-          },
-        ]);
-      } else if (botMessage.sequenceNumber == 5 || inputMessage == "") {
-        const nextMessage = getMessageBySequenceNumber(
-          botMessage.sequenceNumber + 1
-        );
-        setMessages([
-          ...messages,
-          //{ text: inputMessage, sender: "user", isDocumentInput: false },
-          {
-            text: nextMessage.text,
-            sender: "bot",
-            sequenceNumber: nextMessage.sequenceNumber,
-            isDocumentInput: "input",
-          },
-        ]);
-      } else if (botMessage.sequenceNumber == 6 || inputMessage == "") {
-        const nextMessage = getMessageBySequenceNumber(
-          botMessage.sequenceNumber + 1
-        );
-        setMessages([
-          ...messages,
-          //{ text: inputMessage, sender: "user", isDocumentInput: false },
-          {
-            text: nextMessage.text,
-            sender: "bot",
-            sequenceNumber: nextMessage.sequenceNumber,
-            isDocumentInput: false,
           },
         ]);
       } else if (botMessage.sequenceNumber == 7) {
@@ -284,49 +347,6 @@ function ChatBox() {
       } else {
         console.log("im here haha");
       }
-      // if (seqNumber == 5) {
-      //   if (inputMessage.toLowerCase().includes("no")) {
-      //     console.log("said no*****************");
-      //     handleSetSeqNumber(6);
-      //     botMessage = getMessageBySequenceNumber(6);
-      //   } else if (inputMessage.toLowerCase().includes("yes")) {
-      //     handleSetSeqNumber(3);
-      //     botMessage = getMessageBySequenceNumber(3);
-      //     console.log("displaying document input************5");
-      //     setShowDocumentInput(true);
-      //   }
-      // } else if (seqNumber == 3) {
-      //   if (inputMessage.toLowerCase().includes("no")) {
-      //     console.log("said no*****************");
-      //     handleSetSeqNumber(seqNumber + 1); //4
-      //     botMessage = getMessageBySequenceNumber(4);
-      //     setShowInput(false);
-      //     //seqNumber = 4;
-      //   } else if (inputMessage.toLowerCase().includes("yes")) {
-      //     //setSeqNumber(seqNumber+1);
-      //     console.log("displaying document input************3");
-      //     //seqNumber = 3;
-      //     botMessage = getMessageBySequenceNumber(3);
-      //     setShowDocumentInput(true);
-      //   }
-      // } else {
-      //   botMessage = getMessageBySequenceNumber(seqNumber);
-      // }
-
-      // console.log(botMessage.text, " ", botMessage.sequenceNumber);
-      // setMessages([
-      //   ...messages,
-      //   { text: inputMessage, sender: "user", isDocumentInput: false },
-      //   {
-      //     text: botMessage.text,
-      //     sender: botMessage.sender,
-      //     isDocumentInput: botMessage.sequenceNumber == 3 ? "input" : null,
-      //   },
-      // ]);
-
-      // if (seqNumber < 6) {
-      //   handleSetSeqNumber(seqNumber + 1);
-      // }
 
       setInputMessage("");
     }
@@ -358,6 +378,7 @@ function ChatBox() {
               height: "600px",
               display: "inline-grid",
             }}
+            ref={containerRef}
           >
             <div className="chat-messages">
               {messages.map((message, index) => (
@@ -373,18 +394,19 @@ function ChatBox() {
                     <>
                       {lastBotMessageIndex === index && isTyping ? (
                         <Message
-                        user="bot"
-                        content="..."
-                        //isUploaded={handleSendMessage}
-                        //isDocumentInput={message.isDocumentInput}
-                      />
-                      ) : <Message
-                      user={message.sender}
-                      content={message.text}
-                      isUploaded={handleSendMessage}
-                      isDocumentInput={message.isDocumentInput}
-                    />}
-                      
+                          user="bot"
+                          content="..."
+                          //isUploaded={handleSendMessage}
+                          //isDocumentInput={message.isDocumentInput}
+                        />
+                      ) : (
+                        <Message
+                          user={message.sender}
+                          content={message.text}
+                          isUploaded={handleSendMessage}
+                          isDocumentInput={message.isDocumentInput}
+                        />
+                      )}
                     </>
                   )}
                 </div>
