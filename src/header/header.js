@@ -12,7 +12,7 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import { useNavigate } from "react-router-dom";
 
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+const settings = ["Contact Us", "Logout"];
 
 function Header() {
   const userRole = localStorage.getItem("role");
@@ -45,13 +45,11 @@ function Header() {
     }
   };
 
+
   const handleChatClick = () => {
-    const role = localStorage.getItem("role");
-    if (role == "client") {
-      navigate("/chatbox");
-    } else {
-      navigate("/chatbox-verifier");
-    }
+
+      navigate("/contact");
+    
   };
 
   const handleOnboardingClick = () => {
@@ -266,36 +264,7 @@ function Header() {
                 Your Application(s)
               </Button>
             )}
-            <Button
-              //key={page}
-
-              style={{
-                padding: "22px",
-                height: "100%",
-                color: "#1976D2",
-                display: "block",
-                fontWeight: "bold",
-                //borderLeft: "1px solid white",
-                //borderRight: "1px solid white",
-                borderRadius: "0px",
-                color: "white",
-                //backgroundColor: "white", // Set initial background color
-                "&:hover": {
-                  backgroundColor: "white", // Change background color on hover
-                  color: "#1976D2", // Change text color on hover
-                },
-              }}
-              onMouseOver={(e) => {
-                e.target.style.backgroundColor = "white"; // Change background color on hover
-                e.target.style.color = "#1976D2"; // Change text color on hover
-              }}
-              onMouseOut={(e) => {
-                e.target.style.backgroundColor = "transparent"; // Reset background color on hover out
-                e.target.style.color = "white"; // Reset text color on hover out
-              }}
-            >
-              Let's Talk
-            </Button>
+            
             <Button
               //key={page}
 
@@ -329,7 +298,13 @@ function Header() {
             </Button>
           </Box>
 
-          <Box sx={{ flexGrow: 0 }}>
+          <Box sx={{ 
+            flexGrow: 0
+             }}
+             style={{
+              marginRight:"50px"
+             }}>
+          
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
@@ -357,7 +332,9 @@ function Header() {
                     <Typography textAlign="center" onClick={handleLogout}>
                       {setting}
                     </Typography>
-                  ) : (
+                  ) : setting==="Contact Us"? (
+                    <Typography textAlign="center" onClick={handleChatClick}>{setting} </Typography>
+                  ):(
                     <Typography textAlign="center">{setting}</Typography>
                   )}
                 </MenuItem>
