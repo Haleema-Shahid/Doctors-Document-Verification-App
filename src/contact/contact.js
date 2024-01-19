@@ -1,22 +1,52 @@
-import React from "react";
+import React, { useState } from "react";
 import Header from "../header/header";
-import { Container, Typography, Paper, Button, Box} from "@mui/material";
+import { Container, Typography, Paper, Button, Box, TextField } from "@mui/material";
 import Doctors from "./doctors.jpg";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Contact = () => {
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+
   const imageStyle = {
     width: "100%",
-    //maxWidth: "400px",
     borderRadius: "8px",
-    marginTop: "20px",
+    //marginTop: "10px",
   };
 
   const infoContainerStyle = {
-    //padding: "20px",
     borderRadius: "8px",
-    marginTop: "20px",
+    //marginTop: "10px",
     width: "50%",
-    justifyContent: "center", alignItems:"center" 
+    textAlign: "center",
+  };
+
+  const handleSendMessage = () => {
+    if (!email || !message) {
+      toast.error("Please fill in both email and message fields", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+      });
+      return;
+    }
+
+    const confirmed = window.confirm("Are you sure you want to send the message?");
+    if (confirmed) {
+      // Perform the action of sending the message (can be an API call, etc.)
+
+      // Show "Message Sent" toast
+      toast.success("Message Sent", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+      });
+    }
   };
 
   return (
@@ -25,26 +55,25 @@ const Contact = () => {
         height:"100vh"
     }}>
       <Header />
-      <Box //maxWidth="md"
-       style={{
-         marginTop: "50px",
-         display:"flex",
-         justifyContent:"center",
-         alignItems:"center",
-         flexDirection:"column",
-
-         }}>
-        <div style={{width: "50%", }}>
+      <Box
+        style={{
+          marginTop: "20px",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "column",
+        }}
+      >
+        <div style={{ width: "50%" }}>
           {/* Image Section */}
           <img
-            src={Doctors} // Replace with your image URL
+            src={Doctors}
             alt="Contact"
             style={imageStyle}
           />
         </div>
 
         {/* Information Section */}
-        {/* <Paper style={infoContainerStyle}> */}
         <Box style={infoContainerStyle}>
           <Typography variant="h4" gutterBottom>
             Contact Us
@@ -55,22 +84,37 @@ const Contact = () => {
             using the information below.
           </Typography>
 
-          <Typography variant="body1">
-            <strong>Email:</strong> contact@example.com
-          </Typography>
-          <Typography variant="body1">
-            <strong>Phone:</strong> +1 (123) 456-7890
-          </Typography>
+          <TextField
+            label="Email"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+
+          <TextField
+            label="Message"
+            variant="outlined"
+            fullWidth
+            multiline
+            rows={4}
+            margin="normal"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+          />
 
           <Button
             variant="contained"
             color="primary"
             style={{ marginTop: "20px" }}
+            onClick={handleSendMessage}
           >
             Send Message
           </Button>
         </Box>
       </Box>
+      <ToastContainer position="top-right" />
     </div>
   );
 };
