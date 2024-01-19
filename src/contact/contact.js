@@ -52,12 +52,13 @@ const Contact = () => {
   return (
     <div style={{
         backgroundColor:"#bbdef9",
-        height:"100vh"
+        //height:"100%"
+        //height:"100vh"
     }}>
       <Header />
       <Box
         style={{
-          marginTop: "20px",
+          marginTop: "5%",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
